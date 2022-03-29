@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="WebGL Hollow Object">
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <title>WebGL Articulated Model</title>
+  </head>
+  <body>
+    <div id="modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="header">How to Use</h2>
+          <span class="close">&times;</span>
+        </div>
+        <div class="modal-body">
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="container-canvas">
+        <canvas id="glCanvas"> Canvas failed to load. </canvas>
+      </div>
+      <div class="container-sidebar">
+        <h2>WebGL Articulated Model</h2>
+        <div class="options" style="margin-top: -10px;">
+            <div class="options-projection">
+              <label class="options-label">Projection</label>
+              <select id="projection-selector">
+                <option value="0">Orthographic</option>
+                <option value="1">Oblique</option>
+                <option value="2">Perspective</option>
+              </select>
+            </div>
+          <label class="options-label">Light Slider</label>
+            <div class="options-sliders">
+              <label for="amb-light">Ka: </label>
+              <input type="range" min="0" max="1" step="0.01" value="0.8" id="amb-light" name="amb-light" />
+            </div>
+          <label class="options-label">Translation Slider</label>
+          <div class="options-sliders-container">
+                <div class="options-sliders">
+                  <label for="translate-tx">tx: </label>
+                  <input type="range" min="-5" max="5" step="0.01" value="0" id="translate-tx" name="translate-tx" />
+                </div>
+                <div class="options-sliders">
+                  <label for="translate-ty">ty: </label>
+                  <input type="range" min="-5" max="5" step="0.01" value="0" id="translate-ty" name="translate-ty" />
+                </div>
+                <div class="options-sliders">
+                  <label for="translate-tz">tz: </label>
+                  <input type="range" min="-5" max="5" step="0.01" value="0" id="translate-tz" name="translate-tz" />
+                </div>
+          </div>
+
+          <label class="options-label">Rotation Slider</label>
+          <div class="options-sliders-container">
+                <div class="options-sliders">
+                  <label for="rotate-rx">rx: </label>
+                  <input type="range" min="-360" max="360" value="0" id="rotate-rx" name="rotate-rx" />
+                </div>
+                <div class="options-sliders">
+                  <label for="rotate-ry">ry: </label>
+                  <input type="range" min="-360" max="360" value="0" id="rotate-ry" name="rotate-ry" />
+                </div>
+                <div class="options-sliders">
+                  <label for="rotate-rz">rz: </label>
+                  <input type="range" min="-360" max="360" value="0" id="rotate-rz" name="rotate-rz" />
+                </div>
+          </div>
+
+          <label class="options-label">Scale Slider</label>
+          <div class="options-sliders-container">
+                <div class="options-sliders">
+                  <label for="scale-sx">sx: </label>
+                  <input type="range" min="0" max="5" step="0.01" value="1" id="scale-sx" name="scale-sx" />
+                </div>
+                <div class="options-sliders">
+                  <label for="scale-sy">sy: </label>
+                  <input type="range" min="0" max="5" step="0.01" value="1" id="scale-sy" name="scale-sy" />
+                </div>
+                <div class="options-sliders">
+                  <label for="scale-sz">sz: </label>
+                  <input type="range" min="0" max="5" step="0.01" value="1" id="scale-sz" name="scale-sz" />
+                </div>
+          </div>
+
+          <div class="options-shade">
+            <label class="options-label">Shading</label>
+            <div class="options-shade-radio">
+                <div class="shade-opt">
+                    <input type="radio" id="on" name="shade" checked />
+                    <label for="on">On</label>
+                </div>
+                <div class="shade-opt">
+                    <input type="radio" id="off" name="shade" />
+                    <label for="off">Off</label>
+                </div>
+            </div>
+          </div>
+
+            <label class="options-label">Camera Slider</label>
+          <div class="options-sliders-container">
+                <div class="options-sliders">
+                  <label for="rotate-camera">Rotate: </label>
+                  <input type="range" min="-360" max="360" value="0" id="rotate-camera" name="rotate-camera" />
+                </div>
+                <div class="options-sliders">
+                  <label for="radius-camera">Radius: </label>
+                  <input type="range" min="0" max="10" value="2" step="0.01" id="radius-camera" name="radius-camera" />
+                </div>
+          </div>
+
+          <div>
+            Load File : &nbsp;
+            <input
+              class="form-control form-control-sm"
+              type="file"
+              id="load"
+              accept=".json,application/json"
+            />
+          </div>
+        </div>
+
+        <div id="help-btn" style="margin-top: -20px;">Help</div>
+        <div id="default-btn">Set to Default</div>
+      </div>
+    </div>
+    <script type="module" src="scripts/main.js"></script>
+  </body>
+</html>
