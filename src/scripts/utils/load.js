@@ -323,7 +323,7 @@ function TempObj() {
         ],
       },
     ],
-    nodes: {
+    vertices: {
       0: {
         joint_point: [0, 0, 0],
         sibling: null,

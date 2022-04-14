@@ -27,10 +27,6 @@ body {
 .container-canvas {
   color: white;
 }
-.row {
-  display: flex;
-  flex-wrap: wrap;
-}
 
 #look-at {
   display: grid;
@@ -40,21 +36,6 @@ body {
 #panel-control {
   display: grid;
   grid-template-columns: 1fr 1fr;
-}
-
-#Projection-info {
-  font-weight: bold;
-  color: red;
-}
-
-#Shading-info {
-  font-weight: bold;
-  color: red;
-}
-
-#Texture-info {
-  font-weight: bold;
-  color: red;
 }
 
 

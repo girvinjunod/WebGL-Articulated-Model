@@ -1,48 +1,48 @@
 import { m4 } from "./matriks.js";
 
-function matdot(matrixPoint, matrix) {
-  let x = matrixPoint.length,
-    z = matrixPoint[0].length,
-    y = matrix[0].length;
-  if (matrix.length !== z) {
+function matdot(pt, mat) {
+  let x = pt.length;
+  let z = pt[0].length;
+  let y = mat[0].length;
+  if (mat.length !== z) {
     throw new Error("Num row must be the same as num col");
   }
   let productRow = Array.apply(null, new Array(y)).map(
     Number.prototype.valueOf,
     0
   );
-  let product = new Array(x);
+  let product = [];
   for (let p = 0; p < x; p++) {
     product[p] = productRow.slice();
   }
   for (let i = 0; i < x; i++) {
     for (let j = 0; j < y; j++) {
       for (let k = 0; k < z; k++) {
-        product[i][j] += matrixPoint[i][k] * matrix[k][j];
+        product[i][j] += pt[i][k] * mat[k][j];
       }
     }
   }
   return product;
 }
 
-function rotate(obj, radianX, radianY, radianZ) {
-  var rotationMatrix = m4.identity();
-  rotationMatrix = m4.xRotate(rotationMatrix, radianX);
-  rotationMatrix = m4.yRotate(rotationMatrix, radianY);
-  rotationMatrix = m4.zRotate(rotationMatrix, radianZ);
-  let finalMatrix = [];
-  let tmp = [];
-  for (let i = 0; i < rotationMatrix.length; i++) {
-    tmp.push(rotationMatrix[i]);
-    if (tmp.length === 4) {
-      finalMatrix.push(tmp);
-      tmp = [];
+function rotate(obj, radX, radY, radZ) {
+  let rotationMat = m4.identity();
+  rotationMat = m4.xRotate(rotationMat, radX);
+  rotationMat = m4.yRotate(rotationMat, radY);
+  rotationMat = m4.zRotate(rotationMat, radZ);
+  let finalMat = [];
+  let temp = [];
+  for (let i = 0; i < rotationMat.length; i++) {
+    temp.push(rotationMat[i]);
+    if (temp.length === 4) {
+      finalMat.push(temp);
+      temp = [];
     }
   }
   for (let i = 0; i < obj.num_point; i++) {
     let point = obj.points[i];
-    let matrix = [[point[0], point[1], point[2], 1]];
-    const result = matdot(matrix, finalMatrix);
+    let Mat = [[point[0], point[1], point[2], 1]];
+    const result = matdot(Mat, finalMat);
     obj.points[i][0] = result[0][0];
     obj.points[i][1] = result[0][1];
     obj.points[i][2] = result[0][2];
@@ -50,32 +50,32 @@ function rotate(obj, radianX, radianY, radianZ) {
 }
 
 function scale(obj, scaleX, scaleY, scaleZ) {
-  var scaleMatrix = m4.identity();
-  scaleMatrix = m4.scale(scaleMatrix, scaleX, scaleY, scaleZ);
-  let finalMatrix = [];
-  let tmp = [];
-  for (let i = 0; i < scaleMatrix.length; i++) {
-    tmp.push(scaleMatrix[i]);
-    if (tmp.length === 4) {
-      finalMatrix.push(tmp);
-      tmp = [];
+  let scaleMat = m4.identity();
+  scaleMat = m4.scale(scaleMat, scaleX, scaleY, scaleZ);
+  let finalMat = [];
+  let temp = [];
+  for (let i = 0; i < scaleMat.length; i++) {
+    temp.push(scaleMat[i]);
+    if (temp.length === 4) {
+      finalMat.push(temp);
+      temp = [];
     }
   }
   for (let i = 0; i < obj.num_point; i++) {
     let point = obj.points[i];
-    let matrix = [[point[0], point[1], point[2], 1]];
-    const result = matdot(matrix, finalMatrix);
+    let Mat = [[point[0], point[1], point[2], 1]];
+    const result = matdot(Mat, finalMat);
     obj.points[i][0] = result[0][0];
     obj.points[i][1] = result[0][1];
     obj.points[i][2] = result[0][2];
   }
 }
 
-function translate(obj, deltaX, deltaY, deltaZ) {
+function translate(obj, dX, dY, dZ) {
   for (let i = 0; i < obj.num_point; i++) {
-    obj.points[i][0] += deltaX;
-    obj.points[i][1] += deltaY;
-    obj.points[i][2] += deltaZ;
+    obj.points[i][0] += dX;
+    obj.points[i][1] += dY;
+    obj.points[i][2] += dZ;
   }
 }
 

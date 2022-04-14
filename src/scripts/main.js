@@ -1,4 +1,4 @@
-// Referensi: WebGL Fundamentals www.webglfundamentals.org
+// Referensi: www.webglfundamentals.org
 import { GLUtils } from "./modules/GLUtils.js";
 import { load, TempObj } from "./utils/load.js";
 import { getFragShader } from "./shaders/fragmentShader.js";
@@ -211,7 +211,7 @@ window.onload = function () {
       then = now;
       glUtil.clearScreen();
       for (let i = 0; i < glUtil.num_objects; i++) {
-        glUtil.initNodes(i, false);
+        glUtil.initVertices(i, false);
       }
       glUtil.initTraversal(deltaTime);
       requestAnimationFrame(render);

@@ -6,7 +6,7 @@ const xAxis = 0;
 const yAxis = 1;
 const zAxis = 2;
 
-export class GLUtils {
+class GLUtils {
   constructor(canvas, vert, frag) {
     this.gl = canvas.getContext("webgl");
 
@@ -43,16 +43,12 @@ export class GLUtils {
     this.setTextureType(1);
   }
 
-  // Creates a shader of the given type, uploads the source and compiles it.
   loadShader(type, source) {
     const shader = this.gl.createShader(type);
-    // Send the source to the shader object
     this.gl.shaderSource(shader, source);
 
-    // Compile the shader program
     this.gl.compileShader(shader);
 
-    // See if it compiled successfully
     if (!this.gl.getShaderParameter(shader, this.gl.COMPILE_STATUS)) {
       alert(
         "An error occurred compiling the shaders: " +
@@ -64,18 +60,15 @@ export class GLUtils {
     return shader;
   }
 
-  // Initialize a shader program, so WebGL knows how to draw our data
   initShaderProgram(vsSource, fsSource) {
     const vertexShader = this.loadShader(this.gl.VERTEX_SHADER, vsSource);
     const fragmentShader = this.loadShader(this.gl.FRAGMENT_SHADER, fsSource);
 
-    // Create the shader program
     const shaderProgram = this.gl.createProgram();
     this.gl.attachShader(shaderProgram, vertexShader);
     this.gl.attachShader(shaderProgram, fragmentShader);
     this.gl.linkProgram(shaderProgram);
 
-    // If creating the shader program failed, alert
     if (!this.gl.getProgramParameter(shaderProgram, this.gl.LINK_STATUS)) {
       alert(
         "Unable to initialize the shader program: " +
@@ -94,8 +87,8 @@ export class GLUtils {
         console.log("Texture Mapping Mode: Image");
         break;
       case 1:
-        console.log("Texture Mapping Mode: Environment");
-        this.loadEnvironmentTexture();
+        console.log("Texture Mapping Mode: Env");
+        this.loadEnvTexture();
         break;
       case 2:
         console.log("Texture Mapping Mode: Bump Map");
@@ -174,7 +167,7 @@ export class GLUtils {
       this.setArticulatedAngle(0, i - 1);
     }
     for (let i = 0; i < this.num_objects; i++) {
-      this.initNodes(i, true);
+      this.initVertices(i, true);
     }
   }
 
@@ -281,7 +274,7 @@ export class GLUtils {
     let listOfVertices = obj.pts;
     let vertexPositions = [];
     let facesColor = [];
-    let tree = obj.nodes;
+    let tree = obj.vertices;
     for (let i = 0; i < obj.num_edge; i++) {
       let edge = obj.edge[i];
       let position = [];
@@ -306,7 +299,7 @@ export class GLUtils {
     this.num_objects = obj.num_edge;
 
     for (let i = 0; i < this.num_objects; i++) {
-      this.initNodes(i, true);
+      this.initVertices(i, true);
     }
     for (let i = 0; i < vertexPositions.length; i++) {
       const buffer = this.initBuffers(vertexPositions[i], facesColor[i]);
@@ -314,7 +307,7 @@ export class GLUtils {
     }
   }
 
-  initNodes(Id, mode) {
+  initVertices(Id, mode) {
     var m = m4.identity();
 
     let tx = this.tree[Id].joint_point[0];
@@ -358,16 +351,17 @@ export class GLUtils {
     m = m4.translate(m, tx, ty, tz);
     m = m4.rotate(m, this.thetaObject[Id], rotateAxis);
     m = m4.translate(m, -tx, -ty, -tz);
-    this.figure[Id] = this.createNode(m, sibling, child);
+    console.log(m);
+    this.figure[Id] = this.createVertex(m, sibling, child);
   }
 
-  createNode(transform, sibling, child) {
-    var node = {
+  createVertex(transform, sibling, child) {
+    var vertex = {
       transform: transform,
       sibling: sibling,
       child: child,
     };
-    return node;
+    return vertex;
   }
 
   initTraversal(deltaTime) {
@@ -404,25 +398,25 @@ export class GLUtils {
     this.traversal(0);
   }
 
-  traversal(id) {
-    if (id == null) return;
+  traversal(Id) {
+    if (Id == null) return;
 
     this.stack.push(this.modelViewMatrix);
 
     this.modelViewMatrix = m4.multiply(
       this.modelViewMatrix,
-      this.figure[id].transform
+      this.figure[Id].transform
     );
 
-    this.drawScene(this.buffers[id], this.deltaTime);
+    this.drawScene(this.buffers[Id], this.deltaTime);
 
-    if (this.figure[id].child != null) {
-      this.traversal(this.figure[id].child);
+    if (this.figure[Id].child != null) {
+      this.traversal(this.figure[Id].child);
     }
 
     this.modelViewMatrix = this.stack.pop();
-    if (this.figure[id].sibling != null) {
-      this.traversal(this.figure[id].sibling);
+    if (this.figure[Id].sibling != null) {
+      this.traversal(this.figure[Id].sibling);
     }
   }
 
@@ -484,7 +478,7 @@ export class GLUtils {
     return shaderVar;
   }
 
-  loadEnvironmentTexture() {
+  loadEnvTexture() {
     let texture = this.gl.createTexture();
     this.gl.bindTexture(this.gl.TEXTURE_CUBE_MAP, texture);
 
@@ -721,3 +715,5 @@ export class GLUtils {
     }
   }
 }
+
+export { GLUtils };
