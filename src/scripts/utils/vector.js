@@ -1,127 +1,49 @@
-export default class Vector {
-    constructor(data) {
-        this.data = data;
-    }
-
-    get(i) {
-        return this.data[i];
-    }
-
-    set(i, x) {
-        this.data[i] = x;
-    }
-
-    get x(){
-         return this.data[0]
-    }
-    set x(val) {
-        this.data[0] = val
-    }
-    get y() {
-        return this.data[1]
-    }
-    set y(val) {
-        this.data[1] = val
-    }
-    get z() {
-        return this.data[2]
-    }
-    set z(val) {
-        this.data[2] = val
-    }
-    get w() {
-        return this.data[3]
-    }
-    set w(val) {
-        this.data[3] = val
-    }
-
-    get magnitude() {
-        let res = 0;
-
-        for (let i = 0; i < this.data.length; i++) {
-            res += this.data[i] * this.data[i];
-        }
-
-        return Math.sqrt(res);
-    }
-
-    get normalized(){
-        let res = new Vector([]);
-
-        let invMag = 1 / this.magnitude;
-        for (let i = 0; i < this.data.length; i++) {
-            let val = this.data[i] * invMag;
-            res.data.push(val);
-        }
-
-        return res;
-    }
-
-    dot(v) {
-        if (this.data.length !== v.data.length) {
-            return undefined;
-        }
-        let res = 0;
-
-        for (let i = 0; i < this.data.length; i++) {
-            res += this.data[i] * v.data[i];
-        }
-        
-        return res;
-    }
-
-    cross(v){
-        if (this.data.length !== 3 || v.data.length !== 3) {
-            return undefined;
-        } 
-
-        let res = new Vector([0, 0, 0]);
-
-        res.data[0] = this.data[1] * v.data[2] - this.data[2] * v.data[1];
-        res.data[1] = this.data[2] * v.data[0] - this.data[0] * v.data[2];
-        res.data[2] = this.data[0] * v.data[1] - this.data[1] * v.data[0];
-        
-        return res;
-    }
-
-    scale(s){
-        let res = new Vector([]);
-
-        for (let i = 0; i < this.data.length; i++) {
-            res.data.push(this.data[i] * s);
-        }
-
-        return res;
-    }
-
-    add(v){
-        if (this.data.length !== v.data.length){
-            return undefined;
-        } 
-
-        let res = new Vector([]);
-
-        for (let i = 0; i < this.data.length; i++) {
-            let val = this.data[i] + v.data[i];
-            res.data.push(val);
-        }
-
-        return res;
-    }
-
-    sub(v){
-        if (this.data.length !== v.data.length){
-            return undefined;
-        }
-
-        let res = new Vector([])
-
-        for (let i = 0; i < this.data.length; i++) {
-            let val = this.data[i] - v.data[i]
-            res.data.push(val)
-        }
-
-        return res
-    }
+// Pengurangan vektor
+function subtractVectors(a, b) {
+  return [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
 }
+
+// Normalisasi vektor
+function normalize(v) {
+  var length = Math.sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
+  if (length > 0.00001) {
+    return [v[0] / length, v[1] / length, v[2] / length];
+  } else {
+    return [0, 0, 0];
+  }
+}
+
+// Perkalian cross product
+function cross(a, b) {
+  return [
+    a[1] * b[2] - a[2] * b[1],
+    a[2] * b[0] - a[0] * b[2],
+    a[0] * b[1] - a[1] * b[0],
+  ];
+}
+
+// Get all vektor normal
+function getVectorNormals(vpos) {
+  var vnarr = [];
+  var vtarr = [];
+  var vbarr = [];
+  for (let i = 0; i < vpos.length; i += 12) {
+    const p1 = [vpos[i], vpos[i + 1], vpos[i + 2]];
+    const p2 = [vpos[i + 3], vpos[i + 4], vpos[i + 5]];
+    const p3 = [vpos[i + 6], vpos[i + 7], vpos[i + 8]];
+    const v1 = subtractVectors(p2, p1);
+    const v2 = subtractVectors(p3, p1);
+    const normalDirection = cross(v1, v2);
+    const vn = normalize(normalDirection);
+    const vt = normalize(v1);
+    const vb = normalize(v2);
+    for (let j = 0; j < 4; j++) {
+      vnarr = vnarr.concat(vn);
+      vtarr = vtarr.concat(vt);
+      vbarr = vbarr.concat(vb);
+    }
+  }
+  return [vnarr, vtarr, vbarr];
+}
+
+export { subtractVectors, normalize, cross, getVectorNormals };

@@ -1,225 +1,266 @@
-import { initShaderFiles } from "./utils/shader";
-import GLObject from "./modules/GLObject";
-import Renderer from "./modules/Renderer";
-
-let projectionIdx = 0;
-
-const resizeCanvas = (gl) => {
-  gl.canvas.width = (1 / 2) * window.innerWidth;
-  gl.canvas.height = window.innerHeight;
-};
-
-const canvas = document.querySelector("#glCanvas");
-const gl = canvas.getContext("webgl2");
-const renderer = new Renderer(gl);
-
-let shaderProgram;
-let glObject;
-
-const rxSlider = document.getElementById("rotate-rx");
-const rySlider = document.getElementById("rotate-rz");
-const rzSlider = document.getElementById("rotate-ry");
-
-const sxSlider = document.getElementById("scale-sx");
-const sySlider = document.getElementById("scale-sy");
-const szSlider = document.getElementById("scale-sz");
-
-const txSlider = document.getElementById("translate-tx");
-const tySlider = document.getElementById("translate-ty");
-const tzSlider = document.getElementById("translate-tz");
-
-const ambientSlider = document.getElementById("amb-light");
-
-const projectionSelector = document.getElementById("projection-selector");
-
-const cameraRotate = document.getElementById("rotate-camera");
-const cameraRadius = document.getElementById("radius-camera");
-
-let loadButton = document.getElementById("load");
-let defaultButton = document.getElementById("default-btn");
-
-let shadingRadio = document.getElementsByName("shade");
-for (var i = 0; i < shadingRadio.length; i++) {
-  shadingRadio[i].addEventListener("change", function (e) {
-    if (e.target.id == "on") {
-      // shadeToggle = true
-      glObject.shadeToggle = true;
-    } else {
-      // shadeToggle = false
-      glObject.shadeToggle = false;
-    }
-  });
-}
-
-let updateTransform = () => {
-  glObject.setTransform(
-    parseFloat(txSlider.value),
-    parseFloat(tySlider.value),
-    -parseFloat(tzSlider.value),
-    parseFloat(rxSlider.value),
-    parseFloat(rySlider.value),
-    parseFloat(rzSlider.value),
-    parseFloat(sxSlider.value),
-    parseFloat(sySlider.value),
-    parseFloat(szSlider.value)
-  );
-};
+// Referensi: WebGL Fundamentals www.webglfundamentals.org
+import { GLUtils } from "./modules/GLUtils.js";
+import { load, TempObj } from "./utils/load.js";
+import { getFragShader } from "./shaders/fragmentShader.js";
+import { getVertShader } from "./shaders/vertexShader.js";
 window.onload = function () {
-  async function main() {
-    shaderProgram = await initShaderFiles(
-      gl,
-      "vertexShader.glsl",
-      "fragmentShader.glsl"
-    );
-    glObject = new GLObject(shaderProgram, gl);
-    if (gl === null) {
-      alert(
-        "Unable to initialize WebGL. Your browser or machine may not support it."
-      );
-      return;
-    }
-    resizeCanvas(gl);
-    window.addEventListener("resize", () => resizeCanvas(gl), false);
+  function main() {
+    const canvas = document.querySelector("#glcanvas");
+    const fileSelector = document.getElementById("load");
 
-    gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
-    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    var temp = TempObj();
+    // console.log("Jalan");
+    const glUtil = new GLUtils(canvas, getVertShader(), getFragShader());
 
-    const renderer = new Renderer(gl);
-    renderer.orthoSize = [2, 2, 1999.9];
-    renderer.camPosition = [0, 0, 0];
+    fileSelector.addEventListener("change", (ev) => {
+      var setObject = (data) => {
+        temp = data;
 
-    // await fetch('./hollow-objs/hypercube.json').then(response => {
-    //   return response.json();
-    // }).then(data => {
-    //     glObject.setPoints(data.coor)
+        glUtil.drawModel(temp);
+      };
+      load(ev.target.files[0], setObject);
+    });
 
-    //     // glObject.setTopology(data.topo, data.color)
-    //     // glObject.generateNormalsFromTopology()
-
-    //     glObject.setNormalData(data.vn);
-    //     glObject.setTopology(data.topo, data.color, data.vn_idx);
-    // }).catch(err => {
-    //   console.log(err)
-    // });
-
-    updateTransform();
-    renderer.addObject(glObject);
-
-    function render() {
-      gl.clearColor(1, 1, 1, 1);
-      gl.clear(gl.COLOR_BUFFER_BIT);
-
-      renderer.render();
-      requestAnimationFrame(render);
-    }
-
-    requestAnimationFrame(render);
-
-    txSlider.oninput = updateTransform;
-    tySlider.oninput = updateTransform;
-    tzSlider.oninput = updateTransform;
-    rxSlider.oninput = updateTransform;
-    rySlider.oninput = updateTransform;
-    rzSlider.oninput = updateTransform;
-    sxSlider.oninput = updateTransform;
-    sySlider.oninput = updateTransform;
-    szSlider.oninput = updateTransform;
-
-    ambientSlider.oninput = () => {
-      renderer._Ka = ambientSlider.value;
+    document.getElementById("ButtonAnimate").onclick = function () {
+      glUtil.setAnimationFlag();
     };
 
-    projectionSelector.onchange = function () {
-      renderer.projection = parseInt(projectionSelector.value);
-      if (renderer.projection == 1) {
-        cameraRadius.value = 0;
-        renderer.camPosition = 0;
-      } else if (renderer.projection == 2) {
-        cameraRadius.value = 2;
-        renderer.camPosition = 2;
+    document.getElementById("ButtonX").onclick = function () {
+      glUtil.setAxis(0);
+    };
+    document.getElementById("ButtonY").onclick = function () {
+      glUtil.setAxis(1);
+    };
+    document.getElementById("ButtonZ").onclick = function () {
+      glUtil.setAxis(2);
+    };
+    document.getElementById("ButtonT").onclick = function () {
+      glUtil.setFlag();
+    };
+
+    document.getElementById("ButtonDefault").onclick = function () {
+      glUtil.setDefaultView();
+      defaultViewUI();
+    };
+    document.getElementById("ButtonShading").onclick = function () {
+      glUtil.turnOnShading();
+      if (glUtil.shadingState) {
+        document.getElementById("Shading-info").innerHTML = "ON";
+      } else {
+        document.getElementById("Shading-info").innerHTML = "OFF";
       }
     };
 
-    cameraRotate.oninput = function () {
-      renderer.camRotation = parseInt(cameraRotate.value);
+    document.getElementById("Eye-X").oninput = function () {
+      const newEyeValue = document.getElementById("Eye-X").value;
+      document.getElementById("Eye-X-info").innerHTML = newEyeValue;
+      glUtil.setEyePosition(newEyeValue, 0);
     };
-    cameraRadius.oninput = function () {
-      renderer.camPosition = parseInt(cameraRadius.value);
+    document.getElementById("Eye-Y").oninput = function () {
+      const newEyeValue = document.getElementById("Eye-Y").value;
+      document.getElementById("Eye-Y-info").innerHTML = newEyeValue;
+      glUtil.setEyePosition(newEyeValue, 1);
     };
+    document.getElementById("Eye-Z").oninput = function () {
+      const newEyeValue = document.getElementById("Eye-Z").value;
+      document.getElementById("Eye-Z-info").innerHTML = newEyeValue;
+      glUtil.setEyePosition(newEyeValue, 2);
+    };
+
+    document.getElementById("Center-X").oninput = function () {
+      const newCenterValue = document.getElementById("Center-X").value;
+      document.getElementById("Center-X-info").innerHTML = newCenterValue;
+      glUtil.setCenterPosition(newCenterValue, 0);
+    };
+    document.getElementById("Center-Y").oninput = function () {
+      const newCenterValue = document.getElementById("Center-Y").value;
+      document.getElementById("Center-Y-info").innerHTML = newCenterValue;
+      glUtil.setCenterPosition(newCenterValue, 1);
+    };
+    document.getElementById("Center-Z").oninput = function () {
+      const newCenterValue = document.getElementById("Center-Z").value;
+      document.getElementById("Center-Z-info").innerHTML = newCenterValue;
+      glUtil.setCenterPosition(newCenterValue, 2);
+    };
+
+    document.getElementById("Up-X").oninput = function () {
+      const newUpValue = document.getElementById("Up-X").value;
+      document.getElementById("Up-X-info").innerHTML = newUpValue;
+      glUtil.setUpPosition(newUpValue, 0);
+    };
+    document.getElementById("Up-Y").oninput = function () {
+      const newUpValue = document.getElementById("Up-Y").value;
+      document.getElementById("Up-Y-info").innerHTML = newUpValue;
+      glUtil.setUpPosition(newUpValue, 1);
+    };
+    document.getElementById("Up-Z").oninput = function () {
+      const newUpValue = document.getElementById("Up-Z").value;
+      document.getElementById("Up-Z-info").innerHTML = newUpValue;
+      glUtil.setUpPosition(newUpValue, 2);
+    };
+
+    document.getElementById("AngleX").oninput = function () {
+      const newAngle = document.getElementById("AngleX").value;
+      document.getElementById("AngleX-info").innerHTML = newAngle;
+      glUtil.setCameraRadian(newAngle, 0);
+    };
+    document.getElementById("AngleY").oninput = function () {
+      const newAngle = document.getElementById("AngleY").value;
+      document.getElementById("AngleY-info").innerHTML = newAngle;
+      glUtil.setCameraRadian(newAngle, 1);
+    };
+    document.getElementById("AngleZ").oninput = function () {
+      const newAngle = document.getElementById("AngleZ").value;
+      document.getElementById("AngleZ-info").innerHTML = newAngle;
+      glUtil.setCameraRadian(newAngle, 2);
+    };
+
+    document.getElementById("PositionX").oninput = function () {
+      const newPosition = document.getElementById("PositionX").value;
+      document.getElementById("PositionX-info").innerHTML = newPosition;
+      glUtil.setTranslation(newPosition, 0);
+    };
+    document.getElementById("PositionY").oninput = function () {
+      const newPosition = document.getElementById("PositionY").value;
+      document.getElementById("PositionY-info").innerHTML = newPosition;
+      glUtil.setTranslation(newPosition, 1);
+    };
+    document.getElementById("PositionZ").oninput = function () {
+      const newPosition = document.getElementById("PositionZ").value;
+      document.getElementById("PositionZ-info").innerHTML = newPosition;
+      glUtil.setTranslation(newPosition, 2);
+    };
+
+    document.getElementById("ScaleX").oninput = function () {
+      const newScale = document.getElementById("ScaleX").value;
+      document.getElementById("ScaleX-info").innerHTML = newScale;
+      glUtil.setScaling(newScale, 0);
+    };
+    document.getElementById("ScaleY").oninput = function () {
+      const newScale = document.getElementById("ScaleY").value;
+      document.getElementById("ScaleY-info").innerHTML = newScale;
+      glUtil.setScaling(newScale, 1);
+    };
+    document.getElementById("ScaleZ").oninput = function () {
+      const newScale = document.getElementById("ScaleZ").value;
+      document.getElementById("ScaleZ-info").innerHTML = newScale;
+      glUtil.setScaling(newScale, 2);
+    };
+
+    document.getElementById("ButtonProjection-1").onclick = function () {
+      glUtil.setProjectionType(0);
+      document.getElementById("Projection-info").innerHTML = "Orthographic";
+    };
+    document.getElementById("ButtonProjection-2").onclick = function () {
+      glUtil.setProjectionType(1);
+      document.getElementById("Projection-info").innerHTML = "Oblique";
+    };
+    document.getElementById("ButtonProjection-3").onclick = function () {
+      glUtil.setProjectionType(2);
+      document.getElementById("Projection-info").innerHTML = "Perspective";
+    };
+
+    document.getElementById("ButtonTexture-1").onclick = function () {
+      glUtil.setTextureType(0);
+      document.getElementById("Texture-info").innerHTML = "Image";
+    };
+    document.getElementById("ButtonTexture-2").onclick = function () {
+      glUtil.setTextureType(1);
+      document.getElementById("Texture-info").innerHTML = "Environment";
+    };
+    document.getElementById("ButtonTexture-3").onclick = function () {
+      glUtil.setTextureType(2);
+      document.getElementById("Texture-info").innerHTML = "Bump";
+    };
+
+    document.getElementById("part-1").oninput = function () {
+      const newAngle = document.getElementById("part-1").value;
+      glUtil.setArticulatedAngle(newAngle, 0);
+    };
+    document.getElementById("part-2").oninput = function () {
+      const newAngle = document.getElementById("part-2").value;
+      glUtil.setArticulatedAngle(newAngle, 1);
+    };
+    document.getElementById("part-3").oninput = function () {
+      const newAngle = document.getElementById("part-3").value;
+      glUtil.setArticulatedAngle(newAngle, 2);
+    };
+    document.getElementById("part-4").oninput = function () {
+      const newAngle = document.getElementById("part-4").value;
+      glUtil.setArticulatedAngle(newAngle, 3);
+    };
+    document.getElementById("part-5").oninput = function () {
+      const newAngle = document.getElementById("part-5").value;
+      glUtil.setArticulatedAngle(newAngle, 4);
+    };
+    document.getElementById("part-6").oninput = function () {
+      const newAngle = document.getElementById("part-6").value;
+      glUtil.setArticulatedAngle(newAngle, 5);
+    };
+    document.getElementById("part-7").oninput = function () {
+      const newAngle = document.getElementById("part-7").value;
+      glUtil.setArticulatedAngle(newAngle, 6);
+    };
+    document.getElementById("part-8").oninput = function () {
+      const newAngle = document.getElementById("part-8").value;
+      glUtil.setArticulatedAngle(newAngle, 7);
+    };
+    document.getElementById("part-9").oninput = function () {
+      const newAngle = document.getElementById("part-9").value;
+      glUtil.setArticulatedAngle(newAngle, 8);
+    };
+    document.getElementById("part-10").oninput = function () {
+      const newAngle = document.getElementById("part-10").value;
+      glUtil.setArticulatedAngle(newAngle, 9);
+    };
+    document.getElementById("part-11").oninput = function () {
+      const newAngle = document.getElementById("part-11").value;
+      glUtil.setArticulatedAngle(newAngle, 10);
+    };
+    document.getElementById("part-12").oninput = function () {
+      const newAngle = document.getElementById("part-12").value;
+      glUtil.setArticulatedAngle(newAngle, 11);
+    };
+    document.getElementById("part-13").oninput = function () {
+      const newAngle = document.getElementById("part-13").value;
+      glUtil.setArticulatedAngle(newAngle, 12);
+    };
+    document.getElementById("part-14").oninput = function () {
+      const newAngle = document.getElementById("part-14").value;
+      glUtil.setArticulatedAngle(newAngle, 13);
+    };
+    document.getElementById("part-15").oninput = function () {
+      const newAngle = document.getElementById("part-15").value;
+      glUtil.setArticulatedAngle(newAngle, 14);
+    };
+    document.getElementById("part-16").oninput = function () {
+      const newAngle = document.getElementById("part-16").value;
+      glUtil.setArticulatedAngle(newAngle, 15);
+    };
+    document.getElementById("part-17").oninput = function () {
+      const newAngle = document.getElementById("part-17").value;
+      glUtil.setArticulatedAngle(newAngle, 16);
+    };
+    document.getElementById("part-18").oninput = function () {
+      const newAngle = document.getElementById("part-18").value;
+      glUtil.setArticulatedAngle(newAngle, 17);
+    };
+    // console.log(glUtil);
+    glUtil.drawModel(temp);
+
+    let then = 0;
+    function render(now) {
+      now *= 0.001;
+      const deltaTime = now - then;
+      then = now;
+      glUtil.clearScreen();
+      for (let i = 0; i < glUtil.num_objects; i++) {
+        glUtil.initNodes(i, false);
+      }
+      glUtil.initTraversal(deltaTime);
+      requestAnimationFrame(render);
+    }
+    requestAnimationFrame(render);
   }
-
   main();
-
-  projectionSelector.addEventListener("change", (e) => {
-    projectionIdx = e.target.value;
-    console.log(`Selected projection: ${projectionIdx}`);
-  });
-
-  loadButton.addEventListener("change", loadFile);
-
-  defaultButton.addEventListener("click", () => {
-    rxSlider.value = 0;
-    rySlider.value = 0;
-    rzSlider.value = 0;
-    txSlider.value = 0;
-    tySlider.value = 0;
-    tzSlider.value = 0;
-    sxSlider.value = 1;
-    sySlider.value = 1;
-    szSlider.value = 1;
-    cameraRotate.value = 0;
-    if (renderer.projection == 1) {
-      cameraRadius.value = 0;
-      renderer.camPosition = 0;
-    } else {
-      cameraRadius.value = 2;
-      renderer.camPosition = 2;
-    }
-    renderer.orthoSize = [2, 2, 1999.9];
-    // renderer.camPosition = [0, 0, 0];
-    renderer.camRotation = 0;
-    glObject.setTransform(
-      parseFloat(0),
-      parseFloat(0),
-      -parseFloat(0),
-      parseFloat(0),
-      parseFloat(0),
-      parseFloat(0),
-      parseFloat(1),
-      parseFloat(1),
-      parseFloat(1)
-    );
-  });
-};
-
-//Help button
-var modal = document.getElementById("modal");
-var btn = document.getElementById("help-btn");
-var span = document.getElementsByClassName("close")[0];
-btn.onclick = function () {
-  modal.style.display = "block";
-};
-span.onclick = function () {
-  modal.style.display = "none";
-};
-
-// Load File
-const loadFile = () => {
-  var reader = new FileReader();
-  reader.addEventListener("load", function () {
-    var content = this.result;
-    var hollow = JSON.parse(content);
-    glObject.setPoints(hollow.coor);
-    if (hollow.vn !== undefined) {
-      glObject.setNormalData(hollow.vn);
-    }
-
-    if (hollow.vn_idx === undefined) {
-      glObject.setTopology(hollow.topo, hollow.color);
-    } else {
-      glObject.setTopology(hollow.topo, hollow.color, hollow.vn_idx);
-    }
-    // glObject.setTopology(hollow.topo, hollow.color);
-  });
-  reader.readAsText(document.getElementById("load").files[0]);
 };
