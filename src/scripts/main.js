@@ -21,13 +21,13 @@ window.onload = function () {
       load(ev.target.files[0], setObject);
     });
 
-    document.getElementById("ButtonAnimate").onclick = () => {
+    document.getElementById("animate-btn").onclick = () => {
       glUtil.setAnimationFlag();
     };
 
-    document.getElementById("ButtonDefault").onclick = () => {
+    document.getElementById("default-btn").onclick = () => {
       glUtil.setDefaultView();
-      defaultViewUI();
+      defaultViewUI(glUtil);
     };
     document.getElementById("ButtonShading").onclick = () => {
       glUtil.turnOnShading();
@@ -232,4 +232,56 @@ window.onload = function () {
     requestAnimationFrame(render);
   }
   main();
+};
+
+let defaultViewUI = (glUtil) => {
+  document.getElementById("Eye-X").value = 0;
+  document.getElementById("Eye-Y").value = 0;
+  document.getElementById("Eye-Z").value = 40;
+
+  document.getElementById("Center-X").value = 0;
+  document.getElementById("Center-Y").value = 0;
+  document.getElementById("Center-Z").value = 0;
+
+  document.getElementById("Up-X").value = 0;
+  document.getElementById("Up-Y").value = 1;
+  document.getElementById("Up-Z").value = 0;
+
+  document.getElementById("AngleX").value = 0;
+  document.getElementById("AngleY").value = 0;
+  document.getElementById("AngleZ").value = 0;
+
+  document.getElementById("PositionX").value = 0;
+  document.getElementById("PositionY").value = 0;
+  document.getElementById("PositionZ").value = 0;
+
+  document.getElementById("ScaleX").value = 1;
+  document.getElementById("ScaleY").value = 1;
+  document.getElementById("ScaleZ").value = 1;
+
+  document.getElementById("Projection-info").innerHTML = "Perspective";
+  glUtil.setProjectionType(2);
+  document.getElementById("Texture-info").innerHTML = "Image";
+  glUtil.setTextureType(1);
+  document.getElementById("Shading-info").innerHTML = "OFF";
+  glUtil.turnOnShading();
+
+  document.getElementById("part-1").value = 0;
+  document.getElementById("part-2").value = 0;
+  document.getElementById("part-3").value = 0;
+  document.getElementById("part-4").value = 0;
+  document.getElementById("part-5").value = 0;
+  document.getElementById("part-6").value = 0;
+  document.getElementById("part-7").value = 0;
+  document.getElementById("part-8").value = 0;
+  document.getElementById("part-9").value = 0;
+  document.getElementById("part-10").value = 0;
+  document.getElementById("part-11").value = 0;
+  document.getElementById("part-12").value = 0;
+  document.getElementById("part-13").value = 0;
+  document.getElementById("part-14").value = 0;
+  document.getElementById("part-15").value = 0;
+  document.getElementById("part-16").value = 0;
+  document.getElementById("part-17").value = 0;
+  document.getElementById("part-18").value = 0;
 };
