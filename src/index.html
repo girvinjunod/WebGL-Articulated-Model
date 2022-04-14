@@ -18,7 +18,7 @@
     <div class="row">
       <div class="canvas-side">
         <canvas id="glcanvas" width="720" height="520"></canvas><br />
-        <h2>Look At Camera Control</h2>
+        <h2>Camera Control</h2>
         <div id="look-at">
           <div>
             <table>
@@ -33,7 +33,7 @@
                     value="0"
                     id="Eye-X"
                     step="0.01"
-                  /><label id="Eye-X-info">0</label>
+                  />
                 </td>
               </tr>
               <tr>
@@ -47,7 +47,7 @@
                     value="0"
                     id="Eye-Y"
                     step="0.01"
-                  /><label id="Eye-Y-info">0</label>
+                  />
                 </td>
               </tr>
               <tr>
@@ -61,7 +61,7 @@
                     value="40"
                     id="Eye-Z"
                     step="0.01"
-                  /><label id="Eye-Z-info">40</label>
+                  />
                 </td>
               </tr>
             </table>
@@ -79,7 +79,7 @@
                     value="0"
                     id="Center-X"
                     step="0.01"
-                  /><label id="Center-X-info">0</label>
+                  />
                 </td>
               </tr>
               <tr>
@@ -93,7 +93,7 @@
                     value="0"
                     id="Center-Y"
                     step="0.01"
-                  /><label id="Center-Y-info">0</label>
+                  />
                 </td>
               </tr>
               <tr>
@@ -107,7 +107,7 @@
                     value="0"
                     id="Center-Z"
                     step="0.01"
-                  /><label id="Center-Z-info">0</label>
+                  />
                 </td>
               </tr>
             </table>
@@ -125,7 +125,7 @@
                     value="0"
                     id="Up-X"
                     step="0.01"
-                  /><label id="Up-X-info">0</label>
+                  />
                 </td>
               </tr>
               <tr>
@@ -139,7 +139,7 @@
                     value="1"
                     id="Up-Y"
                     step="0.01"
-                  /><label id="Up-Y-info">1</label>
+                  />
                 </td>
               </tr>
               <tr>
@@ -153,7 +153,7 @@
                     value="0"
                     id="Up-Z"
                     step="0.01"
-                  /><label id="Up-Z-info">0</label>
+                  />
                 </td>
               </tr>
             </table>
@@ -163,17 +163,15 @@
       <div class="control-side">
         <div id="panel-control">
           <div>
-            <h2>Animation Control</h2>
+            <h2>Animation</h2>
             <button id="ButtonAnimate">Animate!</button>
-            <h2>Auto Rotation Control</h2>
-            <button id="ButtonX">Rotate X</button>
-            <button id="ButtonY">Rotate Y</button>
-            <button id="ButtonZ">Rotate Z</button>
-            <button id="ButtonT">Toggle Rotation</button>
-            <h2>Model View Control</h2>
+            <h2>Model Control</h2>
             <table>
               <tr>
-                <td><label>Angle X</label></td>
+                <th>Rotation</th>
+              </tr>
+              <tr>
+                <td>X</td>
                 <td>
                   <input
                     type="range"
@@ -183,11 +181,11 @@
                     value="0"
                     id="AngleX"
                     step="0.01"
-                  /><label id="AngleX-info">0</label>
+                  />
                 </td>
               </tr>
               <tr>
-                <td><label>Angle Y</label></td>
+                <td>Y</td>
                 <td>
                   <input
                     type="range"
@@ -197,11 +195,11 @@
                     value="0"
                     id="AngleY"
                     step="0.01"
-                  /><label id="AngleY-info">0</label>
+                  />
                 </td>
               </tr>
               <tr>
-                <td><label>Angle Z</label></td>
+                <td>Z</td>
                 <td>
                   <input
                     type="range"
@@ -211,12 +209,14 @@
                     value="0"
                     id="AngleZ"
                     step="0.01"
-                  /><label id="AngleZ-info">0</label>
+                  />
                 </td>
               </tr>
-
               <tr>
-                <td><label>Position X</label></td>
+                <th>Translation</th>
+              </tr>
+              <tr>
+                <td>X</td>
                 <td>
                   <input
                     type="range"
@@ -226,11 +226,11 @@
                     value="0"
                     id="PositionX"
                     step="0.01"
-                  /><label id="PositionX-info">0</label>
+                  />
                 </td>
               </tr>
               <tr>
-                <td><label>Position Y</label></td>
+                <td>Y</td>
                 <td>
                   <input
                     type="range"
@@ -240,11 +240,11 @@
                     value="0"
                     id="PositionY"
                     step="0.01"
-                  /><label id="PositionY-info">0</label>
+                  />
                 </td>
               </tr>
               <tr>
-                <td><label>Position Z</label></td>
+                <td>Z</td>
                 <td>
                   <input
                     type="range"
@@ -254,12 +254,14 @@
                     value="0"
                     id="PositionZ"
                     step="0.01"
-                  /><label id="PositionZ-info">0</label>
+                  />
                 </td>
               </tr>
-
               <tr>
-                <td><label>Scale X</label></td>
+                <th>Scale</th>
+              </tr>
+              <tr>
+                <td>X</td>
                 <td>
                   <input
                     type="range"
@@ -269,11 +271,11 @@
                     value="1"
                     id="ScaleX"
                     step="0.01"
-                  /><label id="ScaleX-info">1</label>
+                  />
                 </td>
               </tr>
               <tr>
-                <td><label>Scale Y</label></td>
+                <td>Y</td>
                 <td>
                   <input
                     type="range"
@@ -283,11 +285,11 @@
                     value="1"
                     id="ScaleY"
                     step="0.01"
-                  /><label id="ScaleY-info">1</label>
+                  />
                 </td>
               </tr>
               <tr>
-                <td><label>Scale Z</label></td>
+                <td>Z</td>
                 <td>
                   <input
                     type="range"
@@ -297,7 +299,7 @@
                     value="1"
                     id="ScaleZ"
                     step="0.01"
-                  /><label id="ScaleZ-info">1</label>
+                  />
                 </td>
               </tr>
             </table>
@@ -313,11 +315,11 @@
                 <td><label id="Texture-info">Image</label></td>
               </tr>
             </table>
-            <h2>Load Save Model</h2>
-            <button id="save">Save Model</button>
+            <h2>Load Model</h2>
             <input type="file" id="load" /></br>
-            <h2>Other Settings</h2>
-            <button id="ButtonDefault">Default View</button>
+            <h2>Set to Default</h2>
+            <button id="ButtonDefault">Default View</button><br />
+            <h2>Shading</h2>
             <button id="ButtonShading">Shading Mode</button><br />
             <h2>Projection View</h2>
             <button id="ButtonProjection-1">Orthographic</button>
@@ -335,10 +337,10 @@
             </table>
           </div>
         </div>
-        <h2>Model Direct Control</h2>
+        <h2>Model Control</h2>
         <table>
           <tr>
-            <td><label>Part 1</label></td>
+            <td>Part 1</td>
             <td>
               <input
                 type="range"
@@ -350,7 +352,7 @@
                 step="0.01"
               />
             </td>
-            <td><label>Part 2</label></td>
+            <td>Part 2</td>
             <td>
               <input
                 type="range"
@@ -362,7 +364,7 @@
                 step="0.01"
               />
             </td>
-            <td><label>Part 3</label></td>
+            <td>Part 3</td>
             <td>
               <input
                 type="range"
@@ -376,7 +378,7 @@
             </td>
           </tr>
           <tr>
-            <td><label>Part 4</label></td>
+            <td>Part 4</td>
             <td>
               <input
                 type="range"
@@ -388,7 +390,7 @@
                 step="0.01"
               />
             </td>
-            <td><label>Part 5</label></td>
+            <td>Part 5</td>
             <td>
               <input
                 type="range"
@@ -400,7 +402,7 @@
                 step="0.01"
               />
             </td>
-            <td><label>Part 6</label></td>
+            <td>Part 6</td>
             <td>
               <input
                 type="range"
@@ -414,7 +416,7 @@
             </td>
           </tr>
           <tr>
-            <td><label>Part 7</label></td>
+            <td>Part 7</td>
             <td>
               <input
                 type="range"
@@ -426,7 +428,7 @@
                 step="0.01"
               />
             </td>
-            <td><label>Part 8</label></td>
+            <td>Part 8</td>
             <td>
               <input
                 type="range"
@@ -438,7 +440,7 @@
                 step="0.01"
               />
             </td>
-            <td><label>Part 9</label></td>
+            <td>Part 9</td>
             <td>
               <input
                 type="range"
@@ -452,7 +454,7 @@
             </td>
           </tr>
           <tr>
-            <td><label>Part 10</label></td>
+            <td>Part 10</td>
             <td>
               <input
                 type="range"
@@ -464,7 +466,7 @@
                 step="0.01"
               />
             </td>
-            <td><label>Part 11</label></td>
+            <td>Part 11</td>
             <td>
               <input
                 type="range"
@@ -476,7 +478,7 @@
                 step="0.01"
               />
             </td>
-            <td><label>Part 12</label></td>
+            <td>Part 12</td>
             <td>
               <input
                 type="range"
@@ -490,7 +492,7 @@
             </td>
           </tr>
           <tr>
-            <td><label>Part 13</label></td>
+            <td>Part 13</td>
             <td>
               <input
                 type="range"
@@ -502,7 +504,7 @@
                 step="0.01"
               />
             </td>
-            <td><label>Part 14</label></td>
+            <td>Part 14</td>
             <td>
               <input
                 type="range"
@@ -514,7 +516,7 @@
                 step="0.01"
               />
             </td>
-            <td><label>Part 15</label></td>
+            <td>Part 15</td>
             <td>
               <input
                 type="range"
@@ -528,7 +530,7 @@
             </td>
           </tr>
           <tr>
-            <td><label>Part 16</label></td>
+            <td>Part 16</td>
             <td>
               <input
                 type="range"
@@ -540,7 +542,7 @@
                 step="0.01"
               />
             </td>
-            <td><label>Part 17</label></td>
+            <td>Part 17</td>
             <td>
               <input
                 type="range"
@@ -552,7 +554,7 @@
                 step="0.01"
               />
             </td>
-            <td><label>Part 18</label></td>
+            <td>Part 18</td>
             <td>
               <input
                 type="range"
@@ -566,8 +568,8 @@
             </td>
           </tr>
         </table>
-        <h2>Help Menu</h2>
-        <button id="help" onclick="window.open('./help.html','_blank')">HELP</button>
+        <h2>Help</h2>
+        <button id="help">HELP</button>
       </div>
     </div>
 
