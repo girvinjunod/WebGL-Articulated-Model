@@ -29,14 +29,17 @@ window.onload = function () {
       glUtil.setDefaultView();
       defaultViewUI(glUtil);
     };
-    document.getElementById("ButtonShading").onclick = () => {
-      glUtil.turnOnShading();
-      if (glUtil.shadingState) {
-        document.getElementById("Shading-info").innerHTML = "ON";
-      } else {
-        document.getElementById("Shading-info").innerHTML = "OFF";
-      }
-    };
+    const shadingRadio = document.getElementsByName("shade");
+    for (var i = 0; i < shadingRadio.length; i++) {
+      shadingRadio[i].addEventListener("change", function (e) {
+        if (e.target.id == "on") {
+          // shadeToggle = true
+          glUtil.shadingToggle(true);
+        } else {
+          glUtil.shadingToggle(false);
+        }
+      });
+    }
 
     document.getElementById("Eye-X").oninput = () => {
       const newEyeValue = document.getElementById("Eye-X").value;
@@ -116,31 +119,15 @@ window.onload = function () {
       glUtil.setScaling(newScale, 2);
     };
 
-    document.getElementById("ButtonProjection-1").onclick = () => {
-      glUtil.setProjectionType(0);
-      document.getElementById("Projection-info").innerHTML = "Orthographic";
-    };
-    document.getElementById("ButtonProjection-2").onclick = () => {
-      glUtil.setProjectionType(1);
-      document.getElementById("Projection-info").innerHTML = "Oblique";
-    };
-    document.getElementById("ButtonProjection-3").onclick = () => {
-      glUtil.setProjectionType(2);
-      document.getElementById("Projection-info").innerHTML = "Perspective";
-    };
+    const projectionSelector = document.getElementById("projection-selector");
+    projectionSelector.addEventListener("change", (e) => {
+      glUtil.setProjectionType(e.target.value);
+    });
 
-    document.getElementById("ButtonTexture-1").onclick = () => {
-      glUtil.setTextureType(0);
-      document.getElementById("Texture-info").innerHTML = "Image";
-    };
-    document.getElementById("ButtonTexture-2").onclick = () => {
-      glUtil.setTextureType(1);
-      document.getElementById("Texture-info").innerHTML = "Environment";
-    };
-    document.getElementById("ButtonTexture-3").onclick = () => {
-      glUtil.setTextureType(2);
-      document.getElementById("Texture-info").innerHTML = "Bump";
-    };
+    const textureSelector = document.getElementById("texture-selector");
+    textureSelector.addEventListener("change", (e) => {
+      glUtil.setTextureType(1 * e.target.value);
+    });
 
     document.getElementById("part-1").oninput = () => {
       const newAngle = document.getElementById("part-1").value;
@@ -259,12 +246,19 @@ let defaultViewUI = (glUtil) => {
   document.getElementById("ScaleY").value = 1;
   document.getElementById("ScaleZ").value = 1;
 
-  document.getElementById("Projection-info").innerHTML = "Perspective";
+  document.getElementById("projection-selector").value = 2;
   glUtil.setProjectionType(2);
-  document.getElementById("Texture-info").innerHTML = "Image";
+  document.getElementById("texture-selector").value = 1;
   glUtil.setTextureType(1);
-  document.getElementById("Shading-info").innerHTML = "OFF";
-  glUtil.turnOnShading();
+  const shadingRadio = document.getElementsByName("shade");
+  console.log(shadingRadio);
+  for (let i = 0; i < shadingRadio.length; i++) {
+    if (shadingRadio[i].id == "off") {
+      shadingRadio[i].checked = true;
+      break;
+    }
+  }
+  glUtil.shadingToggle(false);
 
   document.getElementById("part-1").value = 0;
   document.getElementById("part-2").value = 0;

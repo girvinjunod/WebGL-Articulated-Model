@@ -92,7 +92,6 @@ export class GLUtils {
     switch (value) {
       case 0:
         console.log("Texture Mapping Mode: Image");
-        this.loadTexture("../assets/Wooden.jpg");
         break;
       case 1:
         console.log("Texture Mapping Mode: Environment");
@@ -100,7 +99,6 @@ export class GLUtils {
         break;
       case 2:
         console.log("Texture Mapping Mode: Bump Map");
-        this.loadTexture("../assets/Bumped.png");
         break;
     }
   }
@@ -180,8 +178,9 @@ export class GLUtils {
     }
   }
 
-  turnOnShading() {
-    this.shadingState = !this.shadingState;
+  shadingToggle(bool) {
+    this.shadingState = bool;
+    console.log(this.shadingState);
   }
 
   clearScreen() {
@@ -706,15 +705,15 @@ export class GLUtils {
     );
 
     if (this.textureMode == 0) {
-      console.log("Map image");
+      // console.log("Map image");
     } else if (this.textureMode == 1) {
-      console.log("Map env");
+      // console.log("Map env");
       this.gl.uniform1i(this.shaderVar.uniformLocations.uTexture, 0);
       this.gl.uniform1i(this.shaderVar.uniformLocations.textureType1, 1);
       this.gl.uniform1i(this.shaderVar.uniformLocations.textureType2, 1);
       this.gl.uniform1i(this.shaderVar.uniformLocations.uSampler, 1);
     } else {
-      console.log("Map bump");
+      // console.log("Map bump");
     }
 
     for (let i = 0; i < 6; i++) {

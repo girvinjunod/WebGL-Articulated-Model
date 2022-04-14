@@ -4,7 +4,7 @@ html{
 }
 
 body {
-  background-color: #1c578e;
+  background-color: #2167a8;
   font-family: 'Roboto', sans-serif;
   overflow: hidden;
   margin:0;
@@ -25,7 +25,7 @@ body {
 }
 
 .container-canvas {
-  background-color: #7ab7f0;
+  color: white;
 }
 .row {
   display: flex;
@@ -251,7 +251,7 @@ input[type="file"] {
 h3 {
   margin: 10px 0px 10px 0px;
   padding: 0;
-  font-weight: normal;
+  font-weight: bold;
 }
 
 ul {
@@ -275,9 +275,15 @@ ul {
 th{
   padding: 0;
   text-align: left;
+  font-weight: normal;
 }
 
 .option-control{
   margin-top: 50px;
   margin-bottom: 30px;
+}
+
+.option-camera{
+  padding: 20px;
+  height: 100%;
 }
