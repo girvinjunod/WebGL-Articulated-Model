@@ -3,8 +3,8 @@ import { GLUtils } from "./modules/GLUtils.js";
 import { load, TempObj } from "./utils/load.js";
 import { getFragShader } from "./shaders/fragmentShader.js";
 import { getVertShader } from "./shaders/vertexShader.js";
-window.onload = function () {
-  function main() {
+window.onload = () => {
+  let main = () => {
     const canvas = document.querySelector("#glcanvas");
     const fileSelector = document.getElementById("load");
 
@@ -31,7 +31,7 @@ window.onload = function () {
     };
     const shadingRadio = document.getElementsByName("shade");
     for (var i = 0; i < shadingRadio.length; i++) {
-      shadingRadio[i].addEventListener("change", function (e) {
+      shadingRadio[i].addEventListener("change", (e) => {
         if (e.target.id == "on") {
           // shadeToggle = true
           glUtil.shadingToggle(true);
@@ -205,7 +205,7 @@ window.onload = function () {
     glUtil.drawModel(temp);
 
     let then = 0;
-    function render(now) {
+    let render = (now) => {
       now *= 0.001;
       const deltaTime = now - then;
       then = now;
@@ -215,9 +215,9 @@ window.onload = function () {
       }
       glUtil.initTraversal(deltaTime);
       requestAnimationFrame(render);
-    }
+    };
     requestAnimationFrame(render);
-  }
+  };
   main();
 };
 

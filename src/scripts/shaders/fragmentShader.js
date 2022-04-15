@@ -1,4 +1,4 @@
-function getFragShader() {
+let getFragShader = () => {
   let shader = `precision highp float;
     // All variables for Environment Mapping
     // Passed in from the vertex shader.
@@ -50,6 +50,6 @@ function getFragShader() {
     }`;
   //   console.log(shader);
   return shader;
-}
+};
 
 export { getFragShader };

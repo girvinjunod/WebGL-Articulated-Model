@@ -1,4 +1,4 @@
-function getVertShader() {
+let getVertShader = () => {
   return `attribute vec4 aVertexPosition;
     attribute vec3 aVertexNormal;
     attribute vec2 aTextureCoord;
@@ -72,6 +72,6 @@ function getVertShader() {
             vTextureCoord = aTextureCoord;
         }
     }`;
-}
+};
 
 export { getVertShader };

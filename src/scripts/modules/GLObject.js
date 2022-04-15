@@ -1,6 +1,6 @@
 import { m4 } from "./matriks.js";
 
-function matdot(pt, mat) {
+let matdot = (pt, mat) => {
   let x = pt.length;
   let z = pt[0].length;
   let y = mat[0].length;
@@ -23,9 +23,9 @@ function matdot(pt, mat) {
     }
   }
   return product;
-}
+};
 
-function rotate(obj, radX, radY, radZ) {
+rotate = (obj, radX, radY, radZ) => {
   let rotationMat = m4.identity();
   rotationMat = m4.xRotate(rotationMat, radX);
   rotationMat = m4.yRotate(rotationMat, radY);
@@ -47,9 +47,9 @@ function rotate(obj, radX, radY, radZ) {
     obj.points[i][1] = result[0][1];
     obj.points[i][2] = result[0][2];
   }
-}
+};
 
-function scale(obj, scaleX, scaleY, scaleZ) {
+scale = (obj, scaleX, scaleY, scaleZ) => {
   let scaleMat = m4.identity();
   scaleMat = m4.scale(scaleMat, scaleX, scaleY, scaleZ);
   let finalMat = [];
@@ -69,14 +69,14 @@ function scale(obj, scaleX, scaleY, scaleZ) {
     obj.points[i][1] = result[0][1];
     obj.points[i][2] = result[0][2];
   }
-}
+};
 
-function translate(obj, dX, dY, dZ) {
+translate = (obj, dX, dY, dZ) => {
   for (let i = 0; i < obj.num_point; i++) {
     obj.points[i][0] += dX;
     obj.points[i][1] += dY;
     obj.points[i][2] += dZ;
   }
-}
+};
 
 export { matdot, rotate, scale, translate };

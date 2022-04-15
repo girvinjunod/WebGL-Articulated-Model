@@ -1,4 +1,4 @@
-function load(file, callback) {
+let load = (file, callback) => {
   if (file.type && file.type.indexOf("json") === -1) {
     console.log("File is not an JSON.", file.type, file);
     return;
@@ -16,9 +16,9 @@ function load(file, callback) {
     callback(data);
   });
   reader.readAsDataURL(file);
-}
+};
 
-function TempObj() {
+let TempObj = () => {
   const cube = {
     num_pts: 80,
     pts: [
@@ -438,6 +438,6 @@ function TempObj() {
   };
 
   return cube;
-}
+};
 
 export { load, TempObj };
