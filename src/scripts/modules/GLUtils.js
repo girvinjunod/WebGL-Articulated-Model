@@ -173,7 +173,7 @@ class GLUtils {
 
   shadingToggle(bool) {
     this.shadingState = bool;
-    console.log(this.shadingState);
+    // console.log(this.shadingState);
   }
 
   clearScreen() {
@@ -351,7 +351,7 @@ class GLUtils {
     m = m4.translate(m, tx, ty, tz);
     m = m4.rotate(m, this.thetaObject[Id], rotateAxis);
     m = m4.translate(m, -tx, -ty, -tz);
-    console.log(m);
+    // console.log(m);
     this.figure[Id] = this.createVertex(m, sibling, child);
   }
 
@@ -461,7 +461,7 @@ class GLUtils {
         shadingBool: this.gl.getUniformLocation(this.shaderProgram, "uShading"),
         uSampler: this.gl.getUniformLocation(this.shaderProgram, "uSampler"),
         uTexture: this.gl.getUniformLocation(this.shaderProgram, "uTexture"),
-        worldCameraposition: this.gl.getUniformLocation(
+        worldCameraPosition: this.gl.getUniformLocation(
           this.shaderProgram,
           "uWorldCameraPosition"
         ),
