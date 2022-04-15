@@ -1,6 +1,6 @@
 import { m4 } from "../utils/matrix.js";
 import { getVectorNormals } from "../utils/vector.js";
-import { getRadian } from "../utils/math.js";
+import { getRadian, isPowerOf2 } from "../utils/math.js";
 
 const xAxis = 0;
 const yAxis = 1;
@@ -40,7 +40,7 @@ class GLUtils {
     this.vertexPositions = null;
     this.buffers = null;
     this.textureMode = 1;
-    this.setTextureType(1);
+    this.setTextureType(this.textureMode);
   }
 
   loadShader(type, source) {
@@ -92,6 +92,7 @@ class GLUtils {
         break;
       case 2:
         console.log("Texture Mapping Mode: Bump Map");
+        this.loadTextureImg("../assets/bumpMap/bumpMap.jpg");
         break;
     }
   }
@@ -542,6 +543,81 @@ class GLUtils {
       this.gl.LINEAR_MIPMAP_LINEAR
     );
   }
+ 
+  loadTextureImg(path){
+      // Create a texture.
+      const texture = this.gl.createTexture();
+      this.gl.bindTexture(this.gl.TEXTURE_2D, texture);
+
+      // Fill the texture with a 1x1 blue pixel.
+      this.gl.texImage2D(
+        this.gl.TEXTURE_2D,
+        0,
+        this.gl.RGBA,
+        1,
+        1,
+        0,
+        this.gl.RGBA,
+        this.gl.UNSIGNED_BYTE,
+        new Uint8Array([0, 0, 255, 255])
+      );
+
+      // Asynchronously load an image
+      const image = new Image();
+      // image.crossOrigin = "anonymous";
+      image.onload = () => {
+        // Now that the image has loaded make copy it to the texture.
+        this.gl.bindTexture(this.gl.TEXTURE_2D, texture);
+        this.gl.texImage2D(
+          this.gl.TEXTURE_2D,
+          0,
+          this.gl.RGBA,
+          this.gl.RGBA,
+          this.gl.UNSIGNED_BYTE,
+          image
+        );
+
+        // Check if the image is a power of 2 in both dimensions.
+        if (isPowerOf2(image.width) && isPowerOf2(image.height)) {
+          // Yes, it's a power of 2. Generate mips.
+          this.gl.generateMipmap(this.gl.TEXTURE_2D);
+          this.gl.texParameteri(
+            this.gl.TEXTURE_2D,
+            this.gl.TEXTURE_MIN_FILTER,
+            this.gl.LINEAR_MIPMAP_LINEAR
+          );
+          this.gl.texParameteri(
+            this.gl.TEXTURE_2D,
+            this.gl.TEXTURE_WRAP_S,
+            this.gl.REPEAT
+          );
+          this.gl.texParameteri(
+            this.gl.TEXTURE_2D,
+            this.gl.TEXTURE_WRAP_T,
+            this.gl.REPEAT
+          );
+        } else {
+          // No, it's not a power of 2. Turn of mips and set wrapping to clamp to edge
+          this.gl.texParameteri(
+            this.gl.TEXTURE_2D,
+            this.gl.TEXTURE_WRAP_S,
+            this.gl.CLAMP_TO_EDGE
+          );
+          this.gl.texParameteri(
+            this.gl.TEXTURE_2D,
+            this.gl.TEXTURE_WRAP_T,
+            this.gl.CLAMP_TO_EDGE
+          );
+          this.gl.texParameteri(
+            this.gl.TEXTURE_2D,
+            this.gl.TEXTURE_MIN_FILTER,
+            this.gl.LINEAR
+          );
+        }
+      };
+      image.src = path;
+      return texture;
+  }
 
   drawScene(buffer) {
     this.gl.enable(this.gl.DEPTH_TEST);
@@ -705,6 +781,10 @@ class GLUtils {
       this.gl.uniform1i(this.shaderVar.uniformLocations.uSampler, 1);
     } else {
       // console.log("Map bump");
+      this.gl.uniform1i(this.shaderVar.uniformLocations.uTexture, 1);
+      this.gl.uniform1i(this.shaderVar.uniformLocations.textureType1, 2);
+      this.gl.uniform1i(this.shaderVar.uniformLocations.textureType2, 2);
+      this.gl.uniform1i(this.shaderVar.uniformLocations.uSampler, 0);
     }
 
     for (let i = 0; i < 6; i++) {

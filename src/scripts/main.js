@@ -126,6 +126,7 @@ window.onload = () => {
 
     const textureSelector = document.getElementById("texture-selector");
     textureSelector.addEventListener("change", (e) => {
+      // console.log(e.target.value);
       glUtil.setTextureType(1 * e.target.value);
     });
 
