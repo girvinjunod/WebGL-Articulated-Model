@@ -39,7 +39,7 @@ class GLUtils {
 
     this.vertexPositions = null;
     this.buffers = null;
-    this.textureMode = 0;
+    this.textureMode = 1;
     this.setTextureType(1);
   }
 
@@ -60,9 +60,9 @@ class GLUtils {
     return shader;
   }
 
-  initShaderProgram(vsSource, fsSource) {
-    const vertexShader = this.loadShader(this.gl.VERTEX_SHADER, vsSource);
-    const fragmentShader = this.loadShader(this.gl.FRAGMENT_SHADER, fsSource);
+  initShaderProgram(vert, frag) {
+    const vertexShader = this.loadShader(this.gl.VERTEX_SHADER, vert);
+    const fragmentShader = this.loadShader(this.gl.FRAGMENT_SHADER, frag);
 
     const shaderProgram = this.gl.createProgram();
     this.gl.attachShader(shaderProgram, vertexShader);
@@ -116,13 +116,13 @@ class GLUtils {
     this.theta[idx] = (value * Math.PI) / 180;
   }
 
-  setArticulatedAngle(newAngle, Id) {
-    if (this.tree[Id]) {
-      let max_degree = this.tree[Id].max_degree;
-      let min_degree = this.tree[Id].min_degree;
+  setArticulatedAngle(newAngle, id) {
+    if (this.tree[id]) {
+      let max_degree = this.tree[id].max_degree;
+      let min_degree = this.tree[id].min_degree;
       let interval = max_degree - min_degree;
       let delta_degree = min_degree + newAngle * interval;
-      this.thetaObject[Id] = getRadian(delta_degree);
+      this.thetaObject[id] = getRadian(delta_degree);
     }
   }
 
@@ -307,25 +307,25 @@ class GLUtils {
     }
   }
 
-  initVertices(Id, mode) {
+  initVertices(id, mode) {
     var m = m4.identity();
 
-    let tx = this.tree[Id].joint_point[0];
-    let ty = this.tree[Id].joint_point[1];
-    let tz = this.tree[Id].joint_point[2];
-    let sibling = this.tree[Id].sibling;
-    let child = this.tree[Id].child;
-    let max_degree = this.tree[Id].max_degree;
-    let min_degree = this.tree[Id].min_degree;
-    let rotateAxis = this.tree[Id].rotation_axis;
+    let tx = this.tree[id].joint_point[0];
+    let ty = this.tree[id].joint_point[1];
+    let tz = this.tree[id].joint_point[2];
+    let sibling = this.tree[id].sibling;
+    let child = this.tree[id].child;
+    let max_degree = this.tree[id].max_degree;
+    let min_degree = this.tree[id].min_degree;
+    let rotateAxis = this.tree[id].rotation_axis;
 
     if (mode) {
-      this.thetaObject[Id] = getRadian(this.tree[Id].start_degree);
-      this.clockwiseObject[Id] = this.tree[Id].clockwise;
+      this.thetaObject[id] = getRadian(this.tree[id].start_degree);
+      this.clockwiseObject[id] = this.tree[id].clockwise;
     }
 
     if (!this.animationFlag) {
-      let clockwise = this.clockwiseObject[Id];
+      let clockwise = this.clockwiseObject[id];
       let delta = 0;
       switch (clockwise) {
         case 0:
@@ -336,23 +336,23 @@ class GLUtils {
           break;
       }
 
-      let new_degree = this.thetaObject[Id] + delta;
+      let new_degree = this.thetaObject[id] + delta;
 
       if (new_degree >= getRadian(max_degree)) {
-        this.clockwiseObject[Id] = 1;
-        new_degree = this.thetaObject[Id] - 0.03;
+        this.clockwiseObject[id] = 1;
+        new_degree = this.thetaObject[id] - 0.03;
       } else if (new_degree <= getRadian(min_degree)) {
-        this.clockwiseObject[Id] = 0;
-        new_degree = this.thetaObject[Id] + 0.03;
+        this.clockwiseObject[id] = 0;
+        new_degree = this.thetaObject[id] + 0.03;
       }
-      this.thetaObject[Id] = new_degree;
+      this.thetaObject[id] = new_degree;
     }
 
     m = m4.translate(m, tx, ty, tz);
-    m = m4.rotate(m, this.thetaObject[Id], rotateAxis);
+    m = m4.rotate(m, this.thetaObject[id], rotateAxis);
     m = m4.translate(m, -tx, -ty, -tz);
     // console.log(m);
-    this.figure[Id] = this.createVertex(m, sibling, child);
+    this.figure[id] = this.createVertex(m, sibling, child);
   }
 
   createVertex(transform, sibling, child) {
@@ -392,31 +392,28 @@ class GLUtils {
       this.scaling[2]
     );
 
-    this.modelViewMatrix = m4.multiply(viewMatrix, modelMatrix);
+    this.modelMat = m4.multiply(viewMatrix, modelMatrix);
     this.deltaTime = deltaTime;
     this.stack = [];
     this.traversal(0);
   }
 
-  traversal(Id) {
-    if (Id == null) return;
+  traversal(id) {
+    if (id == null) return;
 
-    this.stack.push(this.modelViewMatrix);
+    this.stack.push(this.modelMat);
 
-    this.modelViewMatrix = m4.multiply(
-      this.modelViewMatrix,
-      this.figure[Id].transform
-    );
+    this.modelMat = m4.multiply(this.modelMat, this.figure[id].transform);
 
-    this.drawScene(this.buffers[Id], this.deltaTime);
+    this.drawScene(this.buffers[id], this.deltaTime);
 
-    if (this.figure[Id].child != null) {
-      this.traversal(this.figure[Id].child);
+    if (this.figure[id].child != null) {
+      this.traversal(this.figure[id].child);
     }
 
-    this.modelViewMatrix = this.stack.pop();
-    if (this.figure[Id].sibling != null) {
-      this.traversal(this.figure[Id].sibling);
+    this.modelMat = this.stack.pop();
+    if (this.figure[id].sibling != null) {
+      this.traversal(this.figure[id].sibling);
     }
   }
 
@@ -446,15 +443,15 @@ class GLUtils {
         ),
       },
       uniformLocations: {
-        normalMatrix: this.gl.getUniformLocation(
+        normalMat: this.gl.getUniformLocation(
           this.shaderProgram,
           "uNormalMatrix"
         ),
-        projectionMatrix: this.gl.getUniformLocation(
+        projectionMat: this.gl.getUniformLocation(
           this.shaderProgram,
           "uProjectionMatrix"
         ),
-        modelViewMatrix: this.gl.getUniformLocation(
+        modelMat: this.gl.getUniformLocation(
           this.shaderProgram,
           "uModelViewMatrix"
         ),
@@ -553,23 +550,23 @@ class GLUtils {
     const aspect = this.gl.canvas.clientWidth / this.gl.canvas.clientHeight;
     const zNear = 0.1;
     const zFar = 100.0;
-    var projectionMatrix = m4.identity();
+    var projectionMat = m4.identity();
     if (this.projectionType == 0) {
-      projectionMatrix = m4.ortho(projectionMatrix, -5, 5, -5, 5, zNear, zFar);
+      projectionMat = m4.ortho(projectionMat, -5, 5, -5, 5, zNear, zFar);
     } else if (this.projectionType == 1) {
       var m = m4.identity();
       var n = m4.identity();
-      m = m4.oblique(projectionMatrix, -this.thetaValue, -this.phi);
-      n = m4.ortho(projectionMatrix, -5, 5, -5, 5, zNear, zFar);
-      projectionMatrix = m4.multiply(m, n);
+      m = m4.oblique(projectionMat, -this.thetaValue, -this.phi);
+      n = m4.ortho(projectionMat, -5, 5, -5, 5, zNear, zFar);
+      projectionMat = m4.multiply(m, n);
 
-      projectionMatrix = m4.translate(projectionMatrix, 3, 3, 3);
+      projectionMat = m4.translate(projectionMat, 3, 3, 3);
     } else if (this.projectionType == 2) {
-      projectionMatrix = m4.perspective(fov, aspect, zNear, zFar);
+      projectionMat = m4.perspective(fov, aspect, zNear, zFar);
     }
 
-    var normalMatrix = m4.inverse(this.modelViewMatrix);
-    normalMatrix = m4.transpose(normalMatrix);
+    var normalMat = m4.inverse(this.modelMat);
+    normalMat = m4.transpose(normalMat);
 
     {
       const numComponents = 3;
@@ -675,19 +672,19 @@ class GLUtils {
     this.gl.useProgram(this.shaderVar.program);
 
     this.gl.uniformMatrix4fv(
-      this.shaderVar.uniformLocations.projectionMatrix,
+      this.shaderVar.uniformLocations.projectionMat,
       false,
-      projectionMatrix
+      projectionMat
     );
     this.gl.uniformMatrix4fv(
-      this.shaderVar.uniformLocations.modelViewMatrix,
+      this.shaderVar.uniformLocations.modelMat,
       false,
-      this.modelViewMatrix
+      this.modelMat
     );
     this.gl.uniformMatrix4fv(
-      this.shaderVar.uniformLocations.normalMatrix,
+      this.shaderVar.uniformLocations.normalMat,
       false,
-      normalMatrix
+      normalMat
     );
     this.gl.uniform1i(
       this.shaderVar.uniformLocations.shadingBool,
