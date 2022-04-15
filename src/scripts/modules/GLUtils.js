@@ -92,7 +92,8 @@ class GLUtils {
         break;
       case 2:
         console.log("Texture Mapping Mode: Bump Map");
-        this.loadTextureImg("../assets/bumpMap/bumpMap.jpg");
+        // this.loadTextureImg("../assets/bumpMap/bumpMap.jpg");
+        this.loadTextureImg("https://i.imgur.com/iupmJIM.jpeg");
         break;
     }
   }
@@ -564,7 +565,14 @@ class GLUtils {
 
       // Asynchronously load an image
       const image = new Image();
-      // image.crossOrigin = "anonymous";
+
+      // https://webglfundamentals.org/
+      // It's important to note asking for permission does 
+      // NOT mean you'll be granted permission. That is up to the server. 
+      // Github pages give permission, flickr.com gives permission, imgur.com gives permission, but most websites do not. 
+      // To give permission the server sends certain headers when sending the image.
+      image.crossOrigin = "anonymous";
+      
       image.onload = () => {
         // Now that the image has loaded make copy it to the texture.
         this.gl.bindTexture(this.gl.TEXTURE_2D, texture);
