@@ -249,8 +249,8 @@ let defaultViewUI = (glUtil) => {
 
   document.getElementById("projection-selector").value = 2;
   glUtil.setProjectionType(2);
-  document.getElementById("texture-selector").value = 1;
-  glUtil.setTextureType(1);
+  document.getElementById("texture-selector").value = 0;
+  glUtil.setTextureType(0);
   const shadingRadio = document.getElementsByName("shade");
   console.log(shadingRadio);
   for (let i = 0; i < shadingRadio.length; i++) {

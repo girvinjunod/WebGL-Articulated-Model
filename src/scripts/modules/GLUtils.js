@@ -39,7 +39,7 @@ class GLUtils {
 
     this.vertexPositions = null;
     this.buffers = null;
-    this.textureMode = 1;
+    this.textureMode = 0;
     this.setTextureType(this.textureMode);
   }
 
@@ -85,6 +85,8 @@ class GLUtils {
     switch (value) {
       case 0:
         console.log("Texture Mapping Mode: Image");
+        // this.loadTextureImg("../assets/imageMap/webgl.png");
+        this.loadTextureImg("https://i.imgur.com/aHu0Tzg.jpeg");
         break;
       case 1:
         console.log("Texture Mapping Mode: Env");
@@ -164,7 +166,7 @@ class GLUtils {
     this.flag = true;
     this.shadingState = false;
     this.animationFlag = true;
-    this.setTextureType(1);
+    this.setTextureType(0);
     for (let i = 1; i <= 18; i++) {
       this.setArticulatedAngle(0, i - 1);
     }
@@ -544,87 +546,87 @@ class GLUtils {
       this.gl.LINEAR_MIPMAP_LINEAR
     );
   }
- 
-  loadTextureImg(path){
-      // Create a texture.
-      const texture = this.gl.createTexture();
-      this.gl.bindTexture(this.gl.TEXTURE_2D, texture);
 
-      // Fill the texture with a 1x1 blue pixel.
+  loadTextureImg(path) {
+    // Create a texture.
+    const texture = this.gl.createTexture();
+    this.gl.bindTexture(this.gl.TEXTURE_2D, texture);
+
+    // Fill the texture with a 1x1 blue pixel.
+    this.gl.texImage2D(
+      this.gl.TEXTURE_2D,
+      0,
+      this.gl.RGBA,
+      1,
+      1,
+      0,
+      this.gl.RGBA,
+      this.gl.UNSIGNED_BYTE,
+      new Uint8Array([0, 0, 255, 255])
+    );
+
+    // Asynchronously load an image
+    const image = new Image();
+
+    // https://webglfundamentals.org/
+    // It's important to note asking for permission does
+    // NOT mean you'll be granted permission. That is up to the server.
+    // Github pages give permission, flickr.com gives permission, imgur.com gives permission, but most websites do not.
+    // To give permission the server sends certain headers when sending the image.
+    image.crossOrigin = "anonymous";
+
+    image.onload = () => {
+      // Now that the image has loaded make copy it to the texture.
+      this.gl.bindTexture(this.gl.TEXTURE_2D, texture);
       this.gl.texImage2D(
         this.gl.TEXTURE_2D,
         0,
         this.gl.RGBA,
-        1,
-        1,
-        0,
         this.gl.RGBA,
         this.gl.UNSIGNED_BYTE,
-        new Uint8Array([0, 0, 255, 255])
+        image
       );
 
-      // Asynchronously load an image
-      const image = new Image();
-
-      // https://webglfundamentals.org/
-      // It's important to note asking for permission does 
-      // NOT mean you'll be granted permission. That is up to the server. 
-      // Github pages give permission, flickr.com gives permission, imgur.com gives permission, but most websites do not. 
-      // To give permission the server sends certain headers when sending the image.
-      image.crossOrigin = "anonymous";
-      
-      image.onload = () => {
-        // Now that the image has loaded make copy it to the texture.
-        this.gl.bindTexture(this.gl.TEXTURE_2D, texture);
-        this.gl.texImage2D(
+      // Check if the image is a power of 2 in both dimensions.
+      if (isPowerOf2(image.width) && isPowerOf2(image.height)) {
+        // Yes, it's a power of 2. Generate mips.
+        this.gl.generateMipmap(this.gl.TEXTURE_2D);
+        this.gl.texParameteri(
           this.gl.TEXTURE_2D,
-          0,
-          this.gl.RGBA,
-          this.gl.RGBA,
-          this.gl.UNSIGNED_BYTE,
-          image
+          this.gl.TEXTURE_MIN_FILTER,
+          this.gl.LINEAR_MIPMAP_LINEAR
         );
-
-        // Check if the image is a power of 2 in both dimensions.
-        if (isPowerOf2(image.width) && isPowerOf2(image.height)) {
-          // Yes, it's a power of 2. Generate mips.
-          this.gl.generateMipmap(this.gl.TEXTURE_2D);
-          this.gl.texParameteri(
-            this.gl.TEXTURE_2D,
-            this.gl.TEXTURE_MIN_FILTER,
-            this.gl.LINEAR_MIPMAP_LINEAR
-          );
-          this.gl.texParameteri(
-            this.gl.TEXTURE_2D,
-            this.gl.TEXTURE_WRAP_S,
-            this.gl.REPEAT
-          );
-          this.gl.texParameteri(
-            this.gl.TEXTURE_2D,
-            this.gl.TEXTURE_WRAP_T,
-            this.gl.REPEAT
-          );
-        } else {
-          // No, it's not a power of 2. Turn of mips and set wrapping to clamp to edge
-          this.gl.texParameteri(
-            this.gl.TEXTURE_2D,
-            this.gl.TEXTURE_WRAP_S,
-            this.gl.CLAMP_TO_EDGE
-          );
-          this.gl.texParameteri(
-            this.gl.TEXTURE_2D,
-            this.gl.TEXTURE_WRAP_T,
-            this.gl.CLAMP_TO_EDGE
-          );
-          this.gl.texParameteri(
-            this.gl.TEXTURE_2D,
-            this.gl.TEXTURE_MIN_FILTER,
-            this.gl.LINEAR
-          );
-        }
-      };
-      image.src = path;
-      return texture;
+        this.gl.texParameteri(
+          this.gl.TEXTURE_2D,
+          this.gl.TEXTURE_WRAP_S,
+          this.gl.REPEAT
+        );
+        this.gl.texParameteri(
+          this.gl.TEXTURE_2D,
+          this.gl.TEXTURE_WRAP_T,
+          this.gl.REPEAT
+        );
+      } else {
+        // No, it's not a power of 2. Turn of mips and set wrapping to clamp to edge
+        this.gl.texParameteri(
+          this.gl.TEXTURE_2D,
+          this.gl.TEXTURE_WRAP_S,
+          this.gl.CLAMP_TO_EDGE
+        );
+        this.gl.texParameteri(
+          this.gl.TEXTURE_2D,
+          this.gl.TEXTURE_WRAP_T,
+          this.gl.CLAMP_TO_EDGE
+        );
+        this.gl.texParameteri(
+          this.gl.TEXTURE_2D,
+          this.gl.TEXTURE_MIN_FILTER,
+          this.gl.LINEAR
+        );
+      }
+    };
+    image.src = path;
+    return texture;
   }
 
   drawScene(buffer) {
@@ -781,6 +783,10 @@ class GLUtils {
 
     if (this.textureMode == 0) {
       // console.log("Map image");
+      this.gl.uniform1i(this.shaderVar.uniformLocations.uTexture, 1);
+      this.gl.uniform1i(this.shaderVar.uniformLocations.textureType1, 0);
+      this.gl.uniform1i(this.shaderVar.uniformLocations.textureType2, 0);
+      this.gl.uniform1i(this.shaderVar.uniformLocations.uSampler, 0);
     } else if (this.textureMode == 1) {
       // console.log("Map env");
       this.gl.uniform1i(this.shaderVar.uniformLocations.uTexture, 0);

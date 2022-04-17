@@ -1,18 +1,19 @@
-html{
+html {
   margin: 0;
   padding: 0;
 }
 
 body {
   background-color: #2167a8;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   overflow: hidden;
-  margin:0;
+  margin: 0;
   height: 100vh;
+  overflow: scroll;
 }
 .container {
   display: flex;
-  height:100%;
+  height: 100%;
 }
 
 .container-sidebar {
@@ -38,7 +39,6 @@ body {
   grid-template-columns: 1fr 1fr;
 }
 
-
 .options {
   width: 80%;
   margin-top: 10px;
@@ -56,13 +56,13 @@ body {
   margin-bottom: 20px;
 }
 
-.translation-options{
-    margin: 0 20px 0 0;
+.translation-options {
+  margin: 0 20px 0 0;
 }
 
-.options-sliders-container{
-    display: flex;
-    flex-direction: row;
+.options-sliders-container {
+  display: flex;
+  flex-direction: row;
 }
 
 .options-projection select {
@@ -80,7 +80,7 @@ body {
 .options-sliders {
   margin: 10px 20px 20px 0px;
   display: flex;
-  width:200px;
+  width: 200px;
 }
 .options-shade-radio {
   display: flex;
@@ -92,8 +92,8 @@ body {
   margin: 7px 0;
 }
 
-.shade-opt{
-    margin: 0 20px 0 0; 
+.shade-opt {
+  margin: 0 20px 0 0;
 }
 
 #help-btn {
@@ -137,7 +137,7 @@ input[type="file"] {
 }
 #load-btn {
   text-align: center;
-  background-color:rgb(8, 130, 45);
+  background-color: rgb(8, 130, 45);
   padding: 10px 0;
   border-radius: 10px;
   transition: 0.3s;
@@ -147,7 +147,7 @@ input[type="file"] {
   font-size: 15px;
 }
 
-#load-btn:hover{
+#load-btn:hover {
   background-color: rgb(236, 236, 236);
   color: rgb(8, 130, 45);
 }
@@ -169,7 +169,6 @@ input[type="file"] {
   background-color: rgb(236, 236, 236);
   color: #5e13f5;
 }
-
 
 .modal {
   display: none;
@@ -239,7 +238,7 @@ ul {
   padding-left: 20px;
 }
 
-.buttons{
+.buttons {
   width: 100%;
   display: flex;
   justify-content: center;
@@ -248,23 +247,24 @@ ul {
 .buttons-btn {
   margin-left: 20px;
   margin-right: 20px;
+  margin-bottom: 20px;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
-th{
+th {
   padding: 0;
   text-align: left;
   font-weight: normal;
 }
 
-.option-control{
+.option-control {
   margin-top: 50px;
   margin-bottom: 30px;
 }
 
-.option-camera{
+.option-camera {
   padding: 20px;
-  height: 100%;
+  height: 100px;
 }

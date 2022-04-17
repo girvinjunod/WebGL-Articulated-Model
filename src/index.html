@@ -1,10 +1,10 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="WebGL Articulated Object">
+    <meta name="description" content="WebGL Articulated Object" />
     <link rel="stylesheet" href="styles.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -17,7 +17,9 @@
   <body>
     <div class="container">
       <div class="container-canvas">
-        <canvas id="glcanvas" width="720" height="520"> Canvas failed to load.</canvas>
+        <canvas id="glcanvas" width="720" height="520">
+          Canvas failed to load.</canvas
+        >
         <div class="option-camera">
           <h3>Camera Control</h3>
           <div id="look-at">
@@ -160,11 +162,10 @@
               </table>
             </div>
           </div>
-          
         </div>
       </div>
       <div class="container-sidebar">
-        <div class="options" style="margin-top: -10px;">
+        <div class="options" style="margin-top: -10px">
           <div id="panel-control">
             <div>
               <h3>Model Control</h3>
@@ -310,8 +311,8 @@
               <div class="options-projection">
                 <h3>Texture Map</h3>
                 <select id="texture-selector">
-                  <option value="0">Image</option>
-                  <option value="1" selected="selected">Environment</option>
+                  <option value="0" selected="selected">Image</option>
+                  <option value="1">Environment</option>
                   <option value="2">Bump</option>
                 </select>
               </div>
@@ -326,14 +327,14 @@
               <div class="options-shade">
                 <h3>Shading</h3>
                 <div class="options-shade-radio">
-                    <div class="shade-opt">
-                        <input type="radio" id="on" name="shade" />
-                        <label for="on">On</label>
-                    </div>
-                    <div class="shade-opt">
-                        <input type="radio" id="off" name="shade" checked/>
-                        <label for="off">Off</label>
-                    </div>
+                  <div class="shade-opt">
+                    <input type="radio" id="on" name="shade" />
+                    <label for="on">On</label>
+                  </div>
+                  <div class="shade-opt">
+                    <input type="radio" id="off" name="shade" checked />
+                    <label for="off">Off</label>
+                  </div>
                 </div>
               </div>
             </div>
@@ -571,7 +572,6 @@
               </tr>
             </table>
           </div>
-          
         </div>
         <div class="buttons">
           <div class="buttons-btn">
@@ -581,10 +581,8 @@
             <button id="help-btn">Help</button>
           </div>
           <div class="buttons-btn">
-            <label for="load" id="load-btn">
-                Load File
-            </label>
-          <input id="load" type="file"/>
+            <label for="load" id="load-btn"> Load File </label>
+            <input id="load" type="file" />
           </div>
           <div class="buttons-btn">
             <button id="default-btn">Set to Default</button>
