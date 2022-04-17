@@ -202,6 +202,18 @@ window.onload = () => {
       const newAngle = document.getElementById("part-18").value;
       glUtil.setArticulatedAngle(newAngle, 17);
     };
+
+    //Help button
+    let modal = document.getElementById("modal");
+    let btn = document.getElementById("help-btn");
+    let span = document.getElementsByClassName("close")[0];
+    btn.onclick = function () {
+      modal.style.display = "block";
+    };
+    span.onclick = function () {
+      modal.style.display = "none";
+    };
+
     // console.log(glUtil);
     glUtil.drawModel(temp);
 

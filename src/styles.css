@@ -9,7 +9,6 @@ body {
   overflow: hidden;
   margin: 0;
   height: 100vh;
-  overflow: scroll;
 }
 .container {
   display: flex;
@@ -247,7 +246,6 @@ ul {
 .buttons-btn {
   margin-left: 20px;
   margin-right: 20px;
-  margin-bottom: 20px;
   display: flex;
   flex-direction: column;
   justify-content: center;
