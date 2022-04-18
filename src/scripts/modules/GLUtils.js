@@ -85,8 +85,8 @@ class GLUtils {
     switch (value) {
       case 0:
         console.log("Texture Mapping Mode: Image");
-        // this.loadTextureImg("../assets/imageMap/webgl.png");
-        this.loadTextureImg("https://i.imgur.com/aHu0Tzg.jpeg");
+        this.loadTextureImg("../assets/imageMap/marble.jpeg");
+        // this.loadTextureImg("https://i.imgur.com/aHu0Tzg.jpeg");
         break;
       case 1:
         console.log("Texture Mapping Mode: Env");
@@ -94,8 +94,8 @@ class GLUtils {
         break;
       case 2:
         console.log("Texture Mapping Mode: Bump Map");
-        // this.loadTextureImg("../assets/bumpMap/bumpMap.jpg");
-        this.loadTextureImg("https://i.imgur.com/iupmJIM.jpeg");
+        this.loadTextureImg("../assets/bumpMap/bumpMap.jpg");
+        // this.loadTextureImg("https://i.imgur.com/iupmJIM.jpeg");
         break;
     }
   }
@@ -181,7 +181,7 @@ class GLUtils {
   }
 
   clearScreen() {
-    this.gl.clearColor(1, 1, 1, 1.0);
+    this.gl.clearColor(220 / 255, 240 / 255, 255 / 255, 1.0);
     this.gl.clearDepth(1.0);
     this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
   }
@@ -289,7 +289,7 @@ class GLUtils {
         position = position.concat(listOfVertices[topology[j][1]]);
         position = position.concat(listOfVertices[topology[j][2]]);
         position = position.concat(listOfVertices[topology[j][3]]);
-        tmpColor.push(edge.color[j]);
+        tmpColor.push([0.0, 0.0, 0.0, 0.0]);
       }
       facesColor.push(tmpColor);
       vertexPositions.push(position);
@@ -548,11 +548,9 @@ class GLUtils {
   }
 
   loadTextureImg(path) {
-    // Create a texture.
     const texture = this.gl.createTexture();
     this.gl.bindTexture(this.gl.TEXTURE_2D, texture);
 
-    // Fill the texture with a 1x1 blue pixel.
     this.gl.texImage2D(
       this.gl.TEXTURE_2D,
       0,
@@ -565,18 +563,11 @@ class GLUtils {
       new Uint8Array([0, 0, 255, 255])
     );
 
-    // Asynchronously load an image
     const image = new Image();
 
-    // https://webglfundamentals.org/
-    // It's important to note asking for permission does
-    // NOT mean you'll be granted permission. That is up to the server.
-    // Github pages give permission, flickr.com gives permission, imgur.com gives permission, but most websites do not.
-    // To give permission the server sends certain headers when sending the image.
     image.crossOrigin = "anonymous";
 
     image.onload = () => {
-      // Now that the image has loaded make copy it to the texture.
       this.gl.bindTexture(this.gl.TEXTURE_2D, texture);
       this.gl.texImage2D(
         this.gl.TEXTURE_2D,
@@ -587,9 +578,7 @@ class GLUtils {
         image
       );
 
-      // Check if the image is a power of 2 in both dimensions.
       if (isPowerOf2(image.width) && isPowerOf2(image.height)) {
-        // Yes, it's a power of 2. Generate mips.
         this.gl.generateMipmap(this.gl.TEXTURE_2D);
         this.gl.texParameteri(
           this.gl.TEXTURE_2D,
@@ -607,7 +596,6 @@ class GLUtils {
           this.gl.REPEAT
         );
       } else {
-        // No, it's not a power of 2. Turn of mips and set wrapping to clamp to edge
         this.gl.texParameteri(
           this.gl.TEXTURE_2D,
           this.gl.TEXTURE_WRAP_S,
