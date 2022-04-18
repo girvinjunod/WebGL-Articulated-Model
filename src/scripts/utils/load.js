@@ -263,7 +263,7 @@ let TempObj = () => {
         max_degree: 45,
         min_degree: -45,
         start_degree: 0,
-        clockwise: 0,
+        clockwise: 1,
       },
       3: {
         joint_point: [0, 0, -3],
@@ -283,7 +283,7 @@ let TempObj = () => {
         max_degree: 45,
         min_degree: -45,
         start_degree: 0,
-        clockwise: 0,
+        clockwise: 1,
       },
       5: {
         joint_point: [0, 0, 0],
