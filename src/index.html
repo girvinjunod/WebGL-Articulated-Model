@@ -85,9 +85,10 @@
     <div class="container">
       <div class="container-canvas">
         <canvas id="glcanvas" width="720" height="520">
-          Canvas failed to load.</canvas
-        >
+          Canvas failed to load.</canvas>
+        
         <div class="option-camera">
+          <h2 id="objName">Wolf Object</h2>
           <h3>Camera Control</h3>
           <div id="look-at">
             <div>
@@ -419,6 +420,9 @@
           <div class="buttons-btn">
             <label for="load" id="load-btn"> Load File </label>
             <input id="load" type="file" />
+          </div>
+          <div class="buttons-btn">
+            <button id="saveImg-btn">Take Screenshot</button>
           </div>
           <div class="buttons-btn">
             <button id="default-btn">Set to Default</button>

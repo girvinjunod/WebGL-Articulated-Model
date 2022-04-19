@@ -41,6 +41,9 @@ class GLUtils {
     this.buffers = null;
     this.textureMode = 0;
     this.setTextureType(this.textureMode);
+
+    this.objectName = "Wolf";
+    this.needCapture = false;
   }
 
   loadShader(type, source) {
@@ -78,6 +81,14 @@ class GLUtils {
     }
 
     return shaderProgram;
+  }
+
+  changeNeedCapture(){
+    this.needCapture = !this.needCapture;
+  }
+
+  setObjectName(value){
+    this.objectName = value;
   }
 
   setTextureType(value) {
