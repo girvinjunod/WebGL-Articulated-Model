@@ -1,5 +1,5 @@
-import { m4 } from "../utils/matrix.js";
-import { getVectorNormals } from "../utils/vector.js";
+import { m4 } from "./matrix.js";
+import { getVectorNormals } from "./vector.js";
 import { getRadian, isPowerOf2 } from "../utils/math.js";
 
 const xAxis = 0;
@@ -12,7 +12,7 @@ class GLUtils {
 
     if (!this.gl) {
       alert(
-        "Unable to initialize Webthis.gl. Your browser or machine may not support it."
+        "Unable to initialize Webgl. Your browser or machine may not support it."
       );
       return;
     }
@@ -314,6 +314,18 @@ class GLUtils {
       const buffer = this.initBuffers(vertexPositions[i], facesColor[i]);
       this.buffers.push(buffer);
     }
+
+    //dynamic display of slider
+    for (let i = 1; i <= 12; i++) {
+      let temp = document.getElementById("part-" + i);
+      let tempLabel = document.getElementById("label-" + i);
+      temp.style.display = "inline-block";
+      tempLabel.style.display = "table-cell";
+      if (i > this.num_objects) {
+        temp.style.display = "none";
+        tempLabel.style.display = "none";
+      }
+    }
   }
 
   initVertices(id, mode) {
@@ -471,13 +483,13 @@ class GLUtils {
           this.shaderProgram,
           "uWorldCameraPosition"
         ),
-        textureType1: this.gl.getUniformLocation(
+        textureVert: this.gl.getUniformLocation(
           this.shaderProgram,
-          "textureType1"
+          "textureVert"
         ),
-        textureType2: this.gl.getUniformLocation(
+        textureFrag: this.gl.getUniformLocation(
           this.shaderProgram,
-          "textureType2"
+          "textureFrag"
         ),
       },
     };
@@ -568,11 +580,11 @@ class GLUtils {
       new Uint8Array([0, 0, 255, 255])
     );
 
-    const image = new Image();
+    let img = new Image();
 
-    image.crossOrigin = "anonymous";
+    img.crossOrigin = "anonymous";
 
-    image.onload = () => {
+    img.onload = () => {
       this.gl.bindTexture(this.gl.TEXTURE_2D, texture);
       this.gl.texImage2D(
         this.gl.TEXTURE_2D,
@@ -580,10 +592,10 @@ class GLUtils {
         this.gl.RGBA,
         this.gl.RGBA,
         this.gl.UNSIGNED_BYTE,
-        image
+        img
       );
 
-      if (isPowerOf2(image.width) && isPowerOf2(image.height)) {
+      if (isPowerOf2(img.width) && isPowerOf2(img.height)) {
         this.gl.generateMipmap(this.gl.TEXTURE_2D);
         this.gl.texParameteri(
           this.gl.TEXTURE_2D,
@@ -618,7 +630,7 @@ class GLUtils {
         );
       }
     };
-    image.src = path;
+    img.src = path;
     return texture;
   }
 
@@ -777,20 +789,20 @@ class GLUtils {
     if (this.textureMode == 0) {
       // console.log("Map image");
       this.gl.uniform1i(this.shaderVar.uniformLocations.uTexture, 1);
-      this.gl.uniform1i(this.shaderVar.uniformLocations.textureType1, 0);
-      this.gl.uniform1i(this.shaderVar.uniformLocations.textureType2, 0);
+      this.gl.uniform1i(this.shaderVar.uniformLocations.textureVert, 0);
+      this.gl.uniform1i(this.shaderVar.uniformLocations.textureFrag, 0);
       this.gl.uniform1i(this.shaderVar.uniformLocations.uSampler, 0);
     } else if (this.textureMode == 1) {
       // console.log("Map env");
       this.gl.uniform1i(this.shaderVar.uniformLocations.uTexture, 0);
-      this.gl.uniform1i(this.shaderVar.uniformLocations.textureType1, 1);
-      this.gl.uniform1i(this.shaderVar.uniformLocations.textureType2, 1);
+      this.gl.uniform1i(this.shaderVar.uniformLocations.textureVert, 1);
+      this.gl.uniform1i(this.shaderVar.uniformLocations.textureFrag, 1);
       this.gl.uniform1i(this.shaderVar.uniformLocations.uSampler, 1);
     } else {
       // console.log("Map bump");
       this.gl.uniform1i(this.shaderVar.uniformLocations.uTexture, 1);
-      this.gl.uniform1i(this.shaderVar.uniformLocations.textureType1, 2);
-      this.gl.uniform1i(this.shaderVar.uniformLocations.textureType2, 2);
+      this.gl.uniform1i(this.shaderVar.uniformLocations.textureVert, 2);
+      this.gl.uniform1i(this.shaderVar.uniformLocations.textureFrag, 2);
       this.gl.uniform1i(this.shaderVar.uniformLocations.uSampler, 0);
     }
 
