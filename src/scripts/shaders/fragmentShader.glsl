@@ -18,11 +18,11 @@ varying vec3 ts_frag_pos;
 void main(void) {
     if (textureFrag == 0){
         highp vec4 texelColor = texture2D(uSampler, vTextureCoord);
-    if (uShading) {
-        gl_FragColor = vec4(texelColor.rgb * vLighting, texelColor.a);
-    } else {
-        gl_FragColor = texelColor;
-    }
+        if (uShading) {
+            gl_FragColor = vec4(texelColor.rgb * vLighting, texelColor.a);
+        } else {
+            gl_FragColor = texelColor;
+        }
 
     } else if (textureFrag == 1) {
         vec3 worldNormal = normalize(vWorldNormal);

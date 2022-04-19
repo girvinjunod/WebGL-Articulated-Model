@@ -1,5 +1,5 @@
-import { m4 } from "../utils/matrix.js";
-import { getVectorNormals } from "../utils/vector.js";
+import { m4 } from "./matrix.js";
+import { getVectorNormals } from "./vector.js";
 import { getRadian, isPowerOf2 } from "../utils/math.js";
 
 const xAxis = 0;
