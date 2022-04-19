@@ -4,7 +4,7 @@ Aplikasi WebGL Articulated Model dibuat untuk memenuhi Tugas 3 dari mata kuliah 
 
 # How to Run
 
-- Aplikasi dapat diakses pada `link`
+- Aplikasi dapat diakses pada https://web-gl-articulated-model.vercel.app/
 - Untuk menjalankan repo pertama kali, jalankan perintah `npm install`
 - Untuk menjalankan di lokal, jalankan perintah `npm run start`
 - Untuk objek, dapat di akses pada `src/articulated-models`
