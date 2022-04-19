@@ -12,7 +12,7 @@ varying highp vec2 vTextureCoord;
 varying highp vec3 vLighting;
 varying vec3 vWorldPosition;
 varying vec3 vWorldNormal;
-uniform int textureType1;
+uniform int textureVert;
 
 varying vec3 ts_light_pos;
 varying vec3 ts_view_pos;
@@ -34,7 +34,7 @@ mat3 transpose(in mat3 inMatrix)
 }
 
 void main(void) {
-    if (textureType1 == 0){
+    if (textureVert == 0){
         gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
         vTextureCoord = aTextureCoord;
         // Apply lighting effect
@@ -46,7 +46,7 @@ void main(void) {
 
         highp float directional = max(dot(transformedNormal.xyz, directionalVector), 0.0);
         vLighting = ambientLight + (directionalLightColor * directional);
-    } else if (textureType1 == 1){
+    } else if (textureVert == 1){
         gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
 
         // Send the view position to the fragment shader

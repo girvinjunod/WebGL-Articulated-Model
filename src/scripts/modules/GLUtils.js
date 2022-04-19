@@ -478,13 +478,13 @@ class GLUtils {
           this.shaderProgram,
           "uWorldCameraPosition"
         ),
-        textureType1: this.gl.getUniformLocation(
+        textureVert: this.gl.getUniformLocation(
           this.shaderProgram,
-          "textureType1"
+          "textureVert"
         ),
-        textureType2: this.gl.getUniformLocation(
+        textureFrag: this.gl.getUniformLocation(
           this.shaderProgram,
-          "textureType2"
+          "textureFrag"
         ),
       },
     };
@@ -784,20 +784,20 @@ class GLUtils {
     if (this.textureMode == 0) {
       // console.log("Map image");
       this.gl.uniform1i(this.shaderVar.uniformLocations.uTexture, 1);
-      this.gl.uniform1i(this.shaderVar.uniformLocations.textureType1, 0);
-      this.gl.uniform1i(this.shaderVar.uniformLocations.textureType2, 0);
+      this.gl.uniform1i(this.shaderVar.uniformLocations.textureVert, 0);
+      this.gl.uniform1i(this.shaderVar.uniformLocations.textureFrag, 0);
       this.gl.uniform1i(this.shaderVar.uniformLocations.uSampler, 0);
     } else if (this.textureMode == 1) {
       // console.log("Map env");
       this.gl.uniform1i(this.shaderVar.uniformLocations.uTexture, 0);
-      this.gl.uniform1i(this.shaderVar.uniformLocations.textureType1, 1);
-      this.gl.uniform1i(this.shaderVar.uniformLocations.textureType2, 1);
+      this.gl.uniform1i(this.shaderVar.uniformLocations.textureVert, 1);
+      this.gl.uniform1i(this.shaderVar.uniformLocations.textureFrag, 1);
       this.gl.uniform1i(this.shaderVar.uniformLocations.uSampler, 1);
     } else {
       // console.log("Map bump");
       this.gl.uniform1i(this.shaderVar.uniformLocations.uTexture, 1);
-      this.gl.uniform1i(this.shaderVar.uniformLocations.textureType1, 2);
-      this.gl.uniform1i(this.shaderVar.uniformLocations.textureType2, 2);
+      this.gl.uniform1i(this.shaderVar.uniformLocations.textureVert, 2);
+      this.gl.uniform1i(this.shaderVar.uniformLocations.textureFrag, 2);
       this.gl.uniform1i(this.shaderVar.uniformLocations.uSampler, 0);
     }
 

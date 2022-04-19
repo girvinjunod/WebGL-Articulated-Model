@@ -1,30 +1,24 @@
 let getFragShader = () => {
   let shader = `precision highp float;
-    // All variables for Environment Mapping
-    // Passed in from the vertex shader.
     varying vec3 vWorldPosition;
     varying vec3 vWorldNormal;
     
-    // The texture
     uniform samplerCube uTexture;
     
-    // The position of the camera
     uniform vec3 uWorldCameraPosition;
-    uniform int textureType2;
+    uniform int textureFrag;
     
-    // All variables for Texture Mapping
     varying highp vec2 vTextureCoord;
     varying highp vec3 vLighting;
     uniform sampler2D uSampler;
     uniform bool uShading;
     
-    // All variables for Bump Mapping
     varying vec3 ts_light_pos;
     varying vec3 ts_view_pos;
     varying vec3 ts_frag_pos;
     
     void main(void) {
-        if (textureType2 == 0){
+        if (textureFrag == 0){
             highp vec4 texelColor = texture2D(uSampler, vTextureCoord);
         if (uShading) {
             gl_FragColor = vec4(texelColor.rgb * vLighting, texelColor.a);
@@ -32,7 +26,7 @@ let getFragShader = () => {
             gl_FragColor = texelColor;
         }
     
-        } else if (textureType2 == 1) {
+        } else if (textureFrag == 1) {
             vec3 worldNormal = normalize(vWorldNormal);
             vec3 eyeToSurfaceDir = normalize(vWorldPosition);
             vec3 direction = reflect(eyeToSurfaceDir, worldNormal);

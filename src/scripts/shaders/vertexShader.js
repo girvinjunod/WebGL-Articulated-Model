@@ -13,7 +13,7 @@ let getVertShader = () => {
     varying highp vec3 vLighting;
     varying vec3 vWorldPosition;
     varying vec3 vWorldNormal;
-    uniform int textureType1;
+    uniform int textureVert;
     
     varying vec3 ts_light_pos;
     varying vec3 ts_view_pos;
@@ -35,10 +35,10 @@ let getVertShader = () => {
     }
     
     void main(void) {
-        if (textureType1 == 0){
+        if (textureVert == 0){
             gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
             vTextureCoord = aTextureCoord;
-            // Apply lighting effect
+    
             highp vec3 ambientLight = vec3(0.3, 0.3, 0.3);
             highp vec3 directionalLightColor = vec3(1, 1, 1);
             highp vec3 directionalVector = normalize(vec3(0.85, 0.8, 0.75));
@@ -47,13 +47,11 @@ let getVertShader = () => {
     
             highp float directional = max(dot(transformedNormal.xyz, directionalVector), 0.0);
             vLighting = ambientLight + (directionalLightColor * directional);
-        } else if (textureType1 == 1){
+        } else if (textureVert == 1){
             gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
     
-            // Send the view position to the fragment shader
             vWorldPosition = (uModelViewMatrix * aVertexPosition).xyz;
     
-            // Orient the normals and pass to the fragment shader
             vWorldNormal = mat3(uModelViewMatrix) * aVertexNormal;
         } else {
             gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
