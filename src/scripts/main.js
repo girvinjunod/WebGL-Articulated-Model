@@ -15,7 +15,7 @@ window.onload = () => {
 
     let glUtil = new GLUtils(canvas, getVertShader(), getFragShader());
 
-    console.log("num nodes", num_nodes);
+    // console.log("num nodes", num_nodes);
     setupSliderPart(num_nodes, glUtil);
 
     fileSelector.addEventListener("change", (ev) => {
@@ -200,7 +200,7 @@ let defaultViewUI = (glUtil, num_nodes) => {
   document.getElementById("texture-selector").value = 0;
   glUtil.setTextureType(0);
   let shadingRadio = document.getElementsByName("shade");
-  console.log(shadingRadio);
+  // console.log(shadingRadio);
   for (let i = 0; i < shadingRadio.length; i++) {
     if (shadingRadio[i].id == "off") {
       shadingRadio[i].checked = true;
@@ -240,7 +240,7 @@ let createTableOptControl = (num_vertices, glUtil) => {
       column = residu * 2;
     }
 
-    console.log(column);
+    // console.log(column);
 
     for (let j = 0; j < column; j++) {
       if (j % 2 == 0) {
@@ -256,7 +256,7 @@ let createTableOptControl = (num_vertices, glUtil) => {
         let col = Math.floor(j / 2) + 1;
         let num_id = 3 * i + col;
         let id = "part-" + num_id;
-        console.log(id);
+        // console.log(id);
 
         let slider = document.createElement("input");
         slider.setAttribute("type", "range");
@@ -274,7 +274,7 @@ let createTableOptControl = (num_vertices, glUtil) => {
     }
   }
 
-  console.log(optControlTable);
+  // console.log(optControlTable);
   optControl.appendChild(optControlTable);
 };
 

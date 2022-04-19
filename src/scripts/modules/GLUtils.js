@@ -82,21 +82,17 @@ class GLUtils {
 
   setTextureType(value) {
     this.textureMode = value;
-    switch (value) {
-      case 0:
-        console.log("Texture Mapping Mode: Image");
-        this.loadTextureImg("../assets/imageMap/marble.jpeg");
-        // this.loadTextureImg("https://i.imgur.com/aHu0Tzg.jpeg");
-        break;
-      case 1:
-        console.log("Texture Mapping Mode: Env");
-        this.loadEnvTexture();
-        break;
-      case 2:
-        console.log("Texture Mapping Mode: Bump Map");
-        this.loadTextureImg("../assets/bumpMap/bumpMap.jpg");
-        // this.loadTextureImg("https://i.imgur.com/iupmJIM.jpeg");
-        break;
+    if (value == 0) {
+      // console.log("Texture Mapping Mode: Image");
+      this.loadTextureImg("../assets/imageMap/marble.jpeg");
+      // this.loadTextureImg("https://i.imgur.com/aHu0Tzg.jpeg");
+    } else if (value == 1) {
+      // console.log("Texture Mapping Mode: Env");
+      this.loadEnvTexture();
+    } else if (value == 2) {
+      // console.log("Texture Mapping Mode: Bump Map");
+      this.loadTextureImg("../assets/bumpMap/bumpMap.jpg");
+      // this.loadTextureImg("https://i.imgur.com/iupmJIM.jpeg");
     }
   }
 
@@ -122,15 +118,11 @@ class GLUtils {
 
   setArticulatedAngle(newAngle, id) {
     if (this.tree[id]) {
-      console.log("didalam");
-
       let max_degree = this.tree[id].max_degree;
       let min_degree = this.tree[id].min_degree;
       let interval = max_degree - min_degree;
       let delta_degree = min_degree + newAngle * interval;
       this.thetaObject[id] = getRadian(delta_degree);
-    } else {
-      console.log("diluar");
     }
   }
 
@@ -334,15 +326,8 @@ class GLUtils {
 
     if (!this.animationFlag) {
       let clockwise = this.clockwiseObject[id];
-      let delta = 0;
-      switch (clockwise) {
-        case 0:
-          delta = 0.03;
-          break;
-        case 1:
-          delta = -0.03;
-          break;
-      }
+
+      let delta = 0.03 * (!clockwise ? 1 : -1);
 
       let new_degree = this.thetaObject[id] + delta;
 
