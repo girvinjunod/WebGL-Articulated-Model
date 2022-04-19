@@ -42,7 +42,6 @@ body {
 .options {
   width: 80%;
   margin-top: 10px;
-  margin-bottom: 20px;
 }
 
 .options-label {
@@ -255,6 +254,7 @@ ul {
   width: 100%;
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 .buttons-btn {
@@ -263,6 +263,7 @@ ul {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin-top: 20px;
 }
 
 th {
