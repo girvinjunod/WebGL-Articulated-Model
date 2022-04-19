@@ -126,6 +126,11 @@ body {
   font-size: 15px;
 }
 
+#saveImg-btn:hover {
+  background-color: rgb(236, 236, 236);
+  color: #cc7707;
+}
+
 #default-btn {
   width: 130px;
   text-align: center;
