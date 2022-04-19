@@ -122,11 +122,16 @@ class GLUtils {
 
   setArticulatedAngle(newAngle, id) {
     if (this.tree[id]) {
+      console.log("didalam");
+
       let max_degree = this.tree[id].max_degree;
       let min_degree = this.tree[id].min_degree;
       let interval = max_degree - min_degree;
       let delta_degree = min_degree + newAngle * interval;
       this.thetaObject[id] = getRadian(delta_degree);
+    }else{
+      console.log("diluar");
+
     }
   }
 

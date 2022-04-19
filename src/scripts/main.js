@@ -11,7 +11,20 @@ window.onload = () => {
     var temp = TempObj();
     // console.log("Jalan");
     const glUtil = new GLUtils(canvas, getVertShader(), getFragShader());
+    var item = 10
+    console.log("ITEM", item);
+    createTableOptControl(item,glUtil);
 
+    // document.getElementById("part-1").value = 20;
+    // document.getElementById("part-2").value = 20;
+    // document.getElementById("part-3").value = 20;
+    // document.getElementById("part-4").value = 20;
+    // document.getElementById("part-5").value = 20;
+    // document.getElementById("part-6").value = 20;
+    // document.getElementById("part-7").value = 20;
+    // document.getElementById("part-8").value = 0;
+    // document.getElementById("part-9").value = 0;
+    // document.getElementById("part-10").value = 0;
     fileSelector.addEventListener("change", (ev) => {
       var setObject = (data) => {
         temp = data;
@@ -130,12 +143,88 @@ window.onload = () => {
       glUtil.setTextureType(1 * e.target.value);
     });
 
+    // document.getElementById("part-11").oninput = () => {
+    //   const newAngle = document.getElementById("part-11").value;
+    //   glUtil.setArticulatedAngle(newAngle, 10);
+    // };
+    // document.getElementById("part-12").oninput = () => {
+    //   const newAngle = document.getElementById("part-12").value;
+    //   glUtil.setArticulatedAngle(newAngle, 11);
+    // };
+    // document.getElementById("part-13").oninput = () => {
+    //   const newAngle = document.getElementById("part-13").value;
+    //   glUtil.setArticulatedAngle(newAngle, 12);
+    // };
+    // document.getElementById("part-14").oninput = () => {
+    //   const newAngle = document.getElementById("part-14").value;
+    //   glUtil.setArticulatedAngle(newAngle, 13);
+    // };
+    // document.getElementById("part-15").oninput = () => {
+    //   const newAngle = document.getElementById("part-15").value;
+    //   glUtil.setArticulatedAngle(newAngle, 14);
+    // };
+    // document.getElementById("part-16").oninput = () => {
+    //   const newAngle = document.getElementById("part-16").value;
+    //   glUtil.setArticulatedAngle(newAngle, 15);
+    // };
+    // document.getElementById("part-17").oninput = () => {
+    //   const newAngle = document.getElementById("part-17").value;
+    //   glUtil.setArticulatedAngle(newAngle, 16);
+    // };
+    // document.getElementById("part-18").oninput = () => {
+    //   const newAngle = document.getElementById("part-18").value;
+    //   glUtil.setArticulatedAngle(newAngle, 17);
+    // };
+
+    
+
+    //Help button
+    let modal = document.getElementById("modal");
+    let btn = document.getElementById("help-btn");
+    let span = document.getElementsByClassName("close")[0];
+    btn.onclick = function () {
+      modal.style.display = "block";
+    };
+    span.onclick = function () {
+      modal.style.display = "none";
+    };
+
+  
+
+    
+
+
+    document.getElementById("part-1").value = 0;
+    document.getElementById("part-2").value = 0;
+    document.getElementById("part-3").value = 0;
+    document.getElementById("part-4").value = 0;
+    document.getElementById("part-5").value = 0;
+    document.getElementById("part-6").value = 0;
+    document.getElementById("part-7").value = 0;
+    document.getElementById("part-8").value = 0;
+    document.getElementById("part-9").value = 0;
+    document.getElementById("part-10").value = 0;
+    // document.getElementById("part-11").value = 0;
+    // document.getElementById("part-12").value = 0;
+    // document.getElementById("part-13").value = 0;
+    // document.getElementById("part-14").value = 0;
+    // document.getElementById("part-15").value = 0;
+    // document.getElementById("part-16").value = 0;
+    // document.getElementById("part-17").value = 0;
+    // document.getElementById("part-18").value = 0;
+
+    // var temp = document.getElementById("part-1");
+    // console.log("temp",temp);
+
     document.getElementById("part-1").oninput = () => {
       const newAngle = document.getElementById("part-1").value;
       glUtil.setArticulatedAngle(newAngle, 0);
     };
     document.getElementById("part-2").oninput = () => {
+      console.log("IN part-2");
       const newAngle = document.getElementById("part-2").value;
+      console.log(newAngle);
+
       glUtil.setArticulatedAngle(newAngle, 1);
     };
     document.getElementById("part-3").oninput = () => {
@@ -169,49 +258,6 @@ window.onload = () => {
     document.getElementById("part-10").oninput = () => {
       const newAngle = document.getElementById("part-10").value;
       glUtil.setArticulatedAngle(newAngle, 9);
-    };
-    document.getElementById("part-11").oninput = () => {
-      const newAngle = document.getElementById("part-11").value;
-      glUtil.setArticulatedAngle(newAngle, 10);
-    };
-    document.getElementById("part-12").oninput = () => {
-      const newAngle = document.getElementById("part-12").value;
-      glUtil.setArticulatedAngle(newAngle, 11);
-    };
-    document.getElementById("part-13").oninput = () => {
-      const newAngle = document.getElementById("part-13").value;
-      glUtil.setArticulatedAngle(newAngle, 12);
-    };
-    document.getElementById("part-14").oninput = () => {
-      const newAngle = document.getElementById("part-14").value;
-      glUtil.setArticulatedAngle(newAngle, 13);
-    };
-    document.getElementById("part-15").oninput = () => {
-      const newAngle = document.getElementById("part-15").value;
-      glUtil.setArticulatedAngle(newAngle, 14);
-    };
-    document.getElementById("part-16").oninput = () => {
-      const newAngle = document.getElementById("part-16").value;
-      glUtil.setArticulatedAngle(newAngle, 15);
-    };
-    document.getElementById("part-17").oninput = () => {
-      const newAngle = document.getElementById("part-17").value;
-      glUtil.setArticulatedAngle(newAngle, 16);
-    };
-    document.getElementById("part-18").oninput = () => {
-      const newAngle = document.getElementById("part-18").value;
-      glUtil.setArticulatedAngle(newAngle, 17);
-    };
-
-    //Help button
-    let modal = document.getElementById("modal");
-    let btn = document.getElementById("help-btn");
-    let span = document.getElementsByClassName("close")[0];
-    btn.onclick = function () {
-      modal.style.display = "block";
-    };
-    span.onclick = function () {
-      modal.style.display = "none";
     };
 
     // console.log(glUtil);
@@ -259,6 +305,17 @@ let defaultViewUI = (glUtil) => {
   document.getElementById("ScaleY").value = 1;
   document.getElementById("ScaleZ").value = 1;
 
+  document.getElementById("part-1").value = 0;
+  document.getElementById("part-2").value = 0;
+  document.getElementById("part-3").value = 0;
+  document.getElementById("part-4").value = 0;
+  document.getElementById("part-5").value = 0;
+  document.getElementById("part-6").value = 0;
+  document.getElementById("part-7").value = 0;
+  document.getElementById("part-8").value = 0;
+  document.getElementById("part-9").value = 0;
+  document.getElementById("part-10").value = 0;
+
   document.getElementById("projection-selector").value = 2;
   glUtil.setProjectionType(2);
   document.getElementById("texture-selector").value = 0;
@@ -273,22 +330,98 @@ let defaultViewUI = (glUtil) => {
   }
   glUtil.shadingToggle(false);
 
-  document.getElementById("part-1").value = 0;
-  document.getElementById("part-2").value = 0;
-  document.getElementById("part-3").value = 0;
-  document.getElementById("part-4").value = 0;
-  document.getElementById("part-5").value = 0;
-  document.getElementById("part-6").value = 0;
-  document.getElementById("part-7").value = 0;
-  document.getElementById("part-8").value = 0;
-  document.getElementById("part-9").value = 0;
-  document.getElementById("part-10").value = 0;
-  document.getElementById("part-11").value = 0;
-  document.getElementById("part-12").value = 0;
-  document.getElementById("part-13").value = 0;
-  document.getElementById("part-14").value = 0;
-  document.getElementById("part-15").value = 0;
-  document.getElementById("part-16").value = 0;
-  document.getElementById("part-17").value = 0;
-  document.getElementById("part-18").value = 0;
+  
 };
+
+// create dynamic table
+const createTableOptControl = (num_vertices,glUtil) => {
+  const optControl = document.getElementById("option-control");
+
+  while (optControl.firstChild){
+    optControl.removeChild(optControl.firstChild)
+  }
+
+  let row = Math.floor(num_vertices/3);
+  let residu = num_vertices % 3;
+
+  if (residu != 0){
+    row += 1;
+  }
+  
+  let optControlTable = document.createElement('table');
+  optControlTable.setAttribute('id', 'opt-control-table');
+  for (let i = 0; i < row; i++) {
+    let optControlRow = document.createElement('tr');
+    
+    var column = 6;
+    if (i == row-1 && residu != 0) {
+        column = residu*2;
+    }
+
+    console.log(column);
+
+    for (let j = 0; j < column; j++) {
+
+      if (j % 2 == 0){
+        let optControlCell = document.createElement('td');
+        let col = Math.floor(j/2) + 1;
+        let text = 'part ' + (3*i + col);
+        optControlCell.innerHTML = text;
+        optControlRow.appendChild(optControlCell);
+        optControlTable.appendChild(optControlRow);
+      }else{
+        let optControlCell = document.createElement('td');
+
+        let col = Math.floor(j/2) + 1;
+        let num_id = 3*i + col;
+        let id = 'part-' + (3*i + col);
+        console.log(id);
+
+        let slider = document.createElement('input');
+        slider.setAttribute('type', 'range');
+        slider.setAttribute('min', '0');
+        slider.setAttribute('max', '1');
+        slider.setAttribute('value', '0');
+        slider.setAttribute('id', id);
+        slider.setAttribute('class', 'slider');
+        slider.setAttribute('step', '0.01');
+        slider.setAttribute('oninput', `{glUtil.setArticulatedAngle(this.value,${num_id-1})}`);
+
+        // slider.innerHTML = `<input
+        //                     type="range"
+        //                     class="slider"
+        //                     min="0"
+        //                     max="1"
+        //                     value="0"
+        //                     id="${id}"
+        //                     step="0.01"
+                            
+        //                     >`;
+
+        // optControlCell.setAttribute('id', id);
+        // optControlCell.setAttribute('class', 'slider');
+        // optControlCell.setAttribute('type', 'range');
+        // optControlCell.setAttribute('min', '0');
+        // optControlCell.setAttribute('max', '1');
+        // optControlCell.setAttribute('step', '0.01');
+        // optControlCell.setAttribute('value', '0');
+        // optControlCell.setAttribute('oninput', `${glUtil}.setArticulatedAngle(this.value, ${num_id})`);
+        
+       
+                                   
+                                      // oninput="${glUtil}.setArticulatedAngle(this.value, ${num_id})"
+      
+        optControlCell.appendChild(slider);
+        optControlRow.appendChild(optControlCell);
+        optControlTable.appendChild(optControlRow);
+      }
+    }
+  }
+
+  console.log(optControlTable);
+  optControl.appendChild(optControlTable);
+};
+
+
+
+
