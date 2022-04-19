@@ -1,4 +1,4 @@
-import { m4 } from "./matriks.js";
+import { m4 } from "../utils/matrix.js";
 
 let matdot = (pt, mat) => {
   let x = pt.length;
