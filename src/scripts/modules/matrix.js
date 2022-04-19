@@ -1,6 +1,6 @@
 import { subtractVectors, normalize, cross } from "./vector.js";
 
-const m4 = {
+let m4 = {
   lookAt: (camPos, target, up) => {
     let z = normalize(subtractVectors(camPos, target));
     let x = normalize(cross(up, z));

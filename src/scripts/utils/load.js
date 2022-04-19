@@ -3,7 +3,7 @@ let load = (file, callback) => {
     console.log("File is not an JSON.", file.type, file);
     return;
   }
-  const reader = new FileReader();
+  let reader = new FileReader();
   reader.addEventListener("load", (event) => {
     let data = JSON.parse(
       atob(

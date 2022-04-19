@@ -2,9 +2,9 @@ import { m4 } from "./matrix.js";
 import { getVectorNormals } from "./vector.js";
 import { getRadian, isPowerOf2 } from "../utils/math.js";
 
-const xAxis = 0;
-const yAxis = 1;
-const zAxis = 2;
+let xAxis = 0;
+let yAxis = 1;
+let zAxis = 2;
 
 class GLUtils {
   constructor(canvas, vert, frag) {
@@ -44,7 +44,7 @@ class GLUtils {
   }
 
   loadShader(type, source) {
-    const shader = this.gl.createShader(type);
+    let shader = this.gl.createShader(type);
     this.gl.shaderSource(shader, source);
 
     this.gl.compileShader(shader);
@@ -61,10 +61,10 @@ class GLUtils {
   }
 
   initShaderProgram(vert, frag) {
-    const vertexShader = this.loadShader(this.gl.VERTEX_SHADER, vert);
-    const fragmentShader = this.loadShader(this.gl.FRAGMENT_SHADER, frag);
+    let vertexShader = this.loadShader(this.gl.VERTEX_SHADER, vert);
+    let fragmentShader = this.loadShader(this.gl.FRAGMENT_SHADER, frag);
 
-    const shaderProgram = this.gl.createProgram();
+    let shaderProgram = this.gl.createProgram();
     this.gl.attachShader(shaderProgram, vertexShader);
     this.gl.attachShader(shaderProgram, fragmentShader);
     this.gl.linkProgram(shaderProgram);
@@ -129,9 +129,8 @@ class GLUtils {
       let interval = max_degree - min_degree;
       let delta_degree = min_degree + newAngle * interval;
       this.thetaObject[id] = getRadian(delta_degree);
-    }else{
+    } else {
       console.log("diluar");
-
     }
   }
 
@@ -192,11 +191,11 @@ class GLUtils {
   }
 
   initBuffers(vertexPosition) {
-    const positionBuffer = this.gl.createBuffer();
+    let positionBuffer = this.gl.createBuffer();
 
     this.gl.bindBuffer(this.gl.ARRAY_BUFFER, positionBuffer);
 
-    const positions = vertexPosition;
+    let positions = vertexPosition;
 
     this.gl.bufferData(
       this.gl.ARRAY_BUFFER,
@@ -204,12 +203,12 @@ class GLUtils {
       this.gl.STATIC_DRAW
     );
 
-    const NTB = getVectorNormals(vertexPosition);
-    const vertexNormals = NTB[0];
-    const vertexTangents = NTB[1];
-    const vertexBitangents = NTB[2];
+    let NTB = getVectorNormals(vertexPosition);
+    let vertexNormals = NTB[0];
+    let vertexTangents = NTB[1];
+    let vertexBitangents = NTB[2];
 
-    const normalBuffer = this.gl.createBuffer();
+    let normalBuffer = this.gl.createBuffer();
     this.gl.bindBuffer(this.gl.ARRAY_BUFFER, normalBuffer);
     this.gl.bufferData(
       this.gl.ARRAY_BUFFER,
@@ -217,7 +216,7 @@ class GLUtils {
       this.gl.STATIC_DRAW
     );
 
-    const tangentBuffer = this.gl.createBuffer();
+    let tangentBuffer = this.gl.createBuffer();
     this.gl.bindBuffer(this.gl.ARRAY_BUFFER, tangentBuffer);
     this.gl.bufferData(
       this.gl.ARRAY_BUFFER,
@@ -225,7 +224,7 @@ class GLUtils {
       this.gl.STATIC_DRAW
     );
 
-    const bitangentBuffer = this.gl.createBuffer();
+    let bitangentBuffer = this.gl.createBuffer();
     this.gl.bindBuffer(this.gl.ARRAY_BUFFER, bitangentBuffer);
     this.gl.bufferData(
       this.gl.ARRAY_BUFFER,
@@ -233,7 +232,7 @@ class GLUtils {
       this.gl.STATIC_DRAW
     );
 
-    const textureCoordinates = [
+    let textureCoordinates = [
       0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0,
 
       0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0,
@@ -247,7 +246,7 @@ class GLUtils {
       0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0,
     ];
 
-    const textureCoordBuffer = this.gl.createBuffer();
+    let textureCoordBuffer = this.gl.createBuffer();
     this.gl.bindBuffer(this.gl.ARRAY_BUFFER, textureCoordBuffer);
     this.gl.bufferData(
       this.gl.ARRAY_BUFFER,
@@ -255,10 +254,10 @@ class GLUtils {
       this.gl.STATIC_DRAW
     );
 
-    const indexBuffer = this.gl.createBuffer();
+    let indexBuffer = this.gl.createBuffer();
     this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
 
-    const indices = [
+    let indices = [
       0, 1, 2, 0, 2, 3, 4, 5, 6, 4, 6, 7, 8, 9, 10, 8, 10, 11, 12, 13, 14, 12,
       14, 15, 16, 17, 18, 16, 18, 19, 20, 21, 22, 20, 22, 23,
     ];
@@ -311,15 +310,13 @@ class GLUtils {
       this.initVertices(i, true);
     }
     for (let i = 0; i < vertexPositions.length; i++) {
-      const buffer = this.initBuffers(vertexPositions[i], facesColor[i]);
+      let buffer = this.initBuffers(vertexPositions[i], facesColor[i]);
       this.buffers.push(buffer);
     }
-
-
   }
 
   initVertices(id, mode) {
-    var m = m4.identity();
+    let m = m4.identity();
 
     let tx = this.tree[id].joint_point[0];
     let ty = this.tree[id].joint_point[1];
@@ -367,7 +364,7 @@ class GLUtils {
   }
 
   createVertex(transform, sibling, child) {
-    var vertex = {
+    let vertex = {
       transform: transform,
       sibling: sibling,
       child: child,
@@ -376,7 +373,7 @@ class GLUtils {
   }
 
   initTraversal(deltaTime) {
-    var cameraMatrix = m4.identity();
+    let cameraMatrix = m4.identity();
 
     cameraMatrix = m4.lookAt(this.eye, this.center, this.up);
 
@@ -389,7 +386,7 @@ class GLUtils {
     viewMatrix = m4.yRotate(viewMatrix, this.theta[yAxis]);
     viewMatrix = m4.zRotate(viewMatrix, this.theta[zAxis]);
 
-    var modelMatrix = m4.identity();
+    let modelMatrix = m4.identity();
     modelMatrix = m4.translate(
       modelMatrix,
       this.translation[0],
@@ -555,7 +552,7 @@ class GLUtils {
   }
 
   loadTextureImg(path) {
-    const texture = this.gl.createTexture();
+    let texture = this.gl.createTexture();
     this.gl.bindTexture(this.gl.TEXTURE_2D, texture);
 
     this.gl.texImage2D(
@@ -627,16 +624,16 @@ class GLUtils {
   drawScene(buffer) {
     this.gl.enable(this.gl.DEPTH_TEST);
     this.gl.depthFunc(this.gl.LEQUAL);
-    const fov = (45 * Math.PI) / 180;
-    const aspect = this.gl.canvas.clientWidth / this.gl.canvas.clientHeight;
-    const zNear = 0.1;
-    const zFar = 100.0;
-    var projectionMat = m4.identity();
+    let fov = (45 * Math.PI) / 180;
+    let aspect = this.gl.canvas.clientWidth / this.gl.canvas.clientHeight;
+    let zNear = 0.1;
+    let zFar = 100.0;
+    let projectionMat = m4.identity();
     if (this.projectionType == 0) {
       projectionMat = m4.ortho(projectionMat, -5, 5, -5, 5, zNear, zFar);
     } else if (this.projectionType == 1) {
-      var m = m4.identity();
-      var n = m4.identity();
+      let m = m4.identity();
+      let n = m4.identity();
       m = m4.oblique(projectionMat, -this.thetaValue, -this.phi);
       n = m4.ortho(projectionMat, -5, 5, -5, 5, zNear, zFar);
       projectionMat = m4.multiply(m, n);
@@ -646,15 +643,15 @@ class GLUtils {
       projectionMat = m4.perspective(fov, aspect, zNear, zFar);
     }
 
-    var normalMat = m4.inverse(this.modelMat);
+    let normalMat = m4.inverse(this.modelMat);
     normalMat = m4.transpose(normalMat);
 
     {
-      const numComponents = 3;
-      const type = this.gl.FLOAT;
-      const normalize = false;
-      const stride = 0;
-      const offset = 0;
+      let numComponents = 3;
+      let type = this.gl.FLOAT;
+      let normalize = false;
+      let stride = 0;
+      let offset = 0;
       this.gl.bindBuffer(this.gl.ARRAY_BUFFER, buffer.position);
       this.gl.vertexAttribPointer(
         this.shaderVar.attribLocations.vertexPosition,
@@ -670,11 +667,11 @@ class GLUtils {
     }
 
     {
-      const numComponents = 2;
-      const type = this.gl.FLOAT;
-      const normalize = false;
-      const stride = 0;
-      const offset = 0;
+      let numComponents = 2;
+      let type = this.gl.FLOAT;
+      let normalize = false;
+      let stride = 0;
+      let offset = 0;
       this.gl.bindBuffer(this.gl.ARRAY_BUFFER, buffer.textureCoord);
       this.gl.vertexAttribPointer(
         this.shaderVar.attribLocations.textureCoord,
@@ -690,11 +687,11 @@ class GLUtils {
     }
 
     {
-      const numComponents = 3;
-      const type = this.gl.FLOAT;
-      const normalize = false;
-      const stride = 0;
-      const offset = 0;
+      let numComponents = 3;
+      let type = this.gl.FLOAT;
+      let normalize = false;
+      let stride = 0;
+      let offset = 0;
       this.gl.bindBuffer(this.gl.ARRAY_BUFFER, buffer.normal);
       this.gl.vertexAttribPointer(
         this.shaderVar.attribLocations.vertexNormal,
@@ -709,11 +706,11 @@ class GLUtils {
       );
     }
     {
-      const numComponents = 3;
-      const type = this.gl.FLOAT;
-      const normalize = false;
-      const stride = 0;
-      const offset = 0;
+      let numComponents = 3;
+      let type = this.gl.FLOAT;
+      let normalize = false;
+      let stride = 0;
+      let offset = 0;
       this.gl.bindBuffer(this.gl.ARRAY_BUFFER, buffer.tangent);
       this.gl.vertexAttribPointer(
         this.shaderVar.attribLocations.vertexTangent,
@@ -729,11 +726,11 @@ class GLUtils {
     }
 
     {
-      const numComponents = 3;
-      const type = this.gl.FLOAT;
-      const normalize = false;
-      const stride = 0;
-      const offset = 0;
+      let numComponents = 3;
+      let type = this.gl.FLOAT;
+      let normalize = false;
+      let stride = 0;
+      let offset = 0;
       this.gl.bindBuffer(this.gl.ARRAY_BUFFER, buffer.bitangent);
       this.gl.vertexAttribPointer(
         this.shaderVar.attribLocations.vertexBitangent,
