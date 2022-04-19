@@ -315,17 +315,7 @@ class GLUtils {
       this.buffers.push(buffer);
     }
 
-    //dynamic display of slider
-    for (let i = 1; i <= 12; i++) {
-      let temp = document.getElementById("part-" + i);
-      let tempLabel = document.getElementById("label-" + i);
-      temp.style.display = "inline-block";
-      tempLabel.style.display = "table-cell";
-      if (i > this.num_objects) {
-        temp.style.display = "none";
-        tempLabel.style.display = "none";
-      }
-    }
+
   }
 
   initVertices(id, mode) {
