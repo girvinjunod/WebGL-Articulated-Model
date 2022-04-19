@@ -171,7 +171,7 @@
     "1": {
       "joint_point": [0, 0, 0],
       "sibling": 2,
-      "child": 6,
+      "child": null,
       "rotation_axis": 2,
       "max_degree": 5,
       "min_degree": -10,
