@@ -3,6 +3,8 @@ import { GLUtils } from "./modules/GLUtils.js";
 import { load, TempObj } from "./utils/load.js";
 import { getFragShader } from "./shaders/fragmentShader.js";
 import { getVertShader } from "./shaders/vertexShader.js";
+import {saveBlob} from "./utils/screenshot.js";
+
 window.onload = () => {
   let main = () => {
     let canvas = document.querySelector("#glcanvas");
@@ -25,12 +27,41 @@ window.onload = () => {
         setupSliderPart(num_nodes, glUtil);
         glUtil.drawModel(temp);
       };
-      load(ev.target.files[0], setObject);
+
+      try {
+        const fileName = ev.target.files[0].name;
+        if (fileName == "wolf.json"){
+          glUtil.setObjectName("Wolf"); 
+          document.getElementById("objName").innerHTML = "Wolf Object";
+        }else if (fileName == "person.json"){
+            glUtil.setObjectName("Human");
+            document.getElementById("objName").innerHTML = "Human Object";
+        }else if (fileName == "superhero.json"){
+            glUtil.setObjectName("Superhero");
+            document.getElementById("objName").innerHTML = "Superhero Object";
+        }else if (fileName == "platypus.json"){
+            glUtil.setObjectName("Platypus");
+            document.getElementById("objName").innerHTML = "Platypus Object";
+        }
+        else{
+            glUtilInstance.setObjectName("Unknown");
+            document.getElementById("objName").innerHTML = "Unknown Object";
+        }
+        load(ev.target.files[0], setObject);
+      }catch (error) {
+        console.log(error);
+      }
+      
     });
 
     document.getElementById("animate-btn").onclick = () => {
       glUtil.setAnimationFlag();
     };
+
+    document.getElementById("saveImg-btn").onclick = () => { 
+      glUtil.needCapture = true;
+    };
+
 
     document.getElementById("default-btn").onclick = () => {
       glUtil.setDefaultView();
@@ -162,6 +193,14 @@ window.onload = () => {
       }
       glUtil.initTraversal(deltaTime);
       requestAnimationFrame(render);
+
+      if (glUtil.needCapture) {
+        glUtil.changeNeedCapture();
+        canvas.toBlob((blob) => {
+          saveBlob(blob,glUtil.objectName);
+        });
+      }
+
     };
     requestAnimationFrame(render);
   };

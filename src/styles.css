@@ -114,6 +114,19 @@ body {
   color: #0e9ebb;
 }
 
+#saveImg-btn {
+  width: 130px;
+  text-align: center;
+  background-color: #cc7707;
+  padding: 10px 0;
+  border-radius: 10px;
+  transition: 0.3s;
+  cursor: pointer;
+  border: none;
+  color: white;
+  font-size: 15px;
+}
+
 #default-btn {
   width: 130px;
   text-align: center;
