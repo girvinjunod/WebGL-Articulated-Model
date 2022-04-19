@@ -176,34 +176,6 @@ window.onload = () => {
       const newAngle = document.getElementById("part-11").value;
       glUtil.setArticulatedAngle(newAngle, 10);
     };
-    document.getElementById("part-12").oninput = () => {
-      const newAngle = document.getElementById("part-12").value;
-      glUtil.setArticulatedAngle(newAngle, 11);
-    };
-    document.getElementById("part-13").oninput = () => {
-      const newAngle = document.getElementById("part-13").value;
-      glUtil.setArticulatedAngle(newAngle, 12);
-    };
-    document.getElementById("part-14").oninput = () => {
-      const newAngle = document.getElementById("part-14").value;
-      glUtil.setArticulatedAngle(newAngle, 13);
-    };
-    document.getElementById("part-15").oninput = () => {
-      const newAngle = document.getElementById("part-15").value;
-      glUtil.setArticulatedAngle(newAngle, 14);
-    };
-    document.getElementById("part-16").oninput = () => {
-      const newAngle = document.getElementById("part-16").value;
-      glUtil.setArticulatedAngle(newAngle, 15);
-    };
-    document.getElementById("part-17").oninput = () => {
-      const newAngle = document.getElementById("part-17").value;
-      glUtil.setArticulatedAngle(newAngle, 16);
-    };
-    document.getElementById("part-18").oninput = () => {
-      const newAngle = document.getElementById("part-18").value;
-      glUtil.setArticulatedAngle(newAngle, 17);
-    };
 
     //Help button
     let modal = document.getElementById("modal");
@@ -286,11 +258,4 @@ let defaultViewUI = (glUtil) => {
   document.getElementById("part-9").value = 0;
   document.getElementById("part-10").value = 0;
   document.getElementById("part-11").value = 0;
-  document.getElementById("part-12").value = 0;
-  document.getElementById("part-13").value = 0;
-  document.getElementById("part-14").value = 0;
-  document.getElementById("part-15").value = 0;
-  document.getElementById("part-16").value = 0;
-  document.getElementById("part-17").value = 0;
-  document.getElementById("part-18").value = 0;
 };
