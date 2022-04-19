@@ -8,7 +8,6 @@ varying vec3 vWorldNormal;
 uniform samplerCube uTexture;
 
 // The position of the camera
-uniform vec3 uWorldCameraPosition;
 uniform int textureType2;
 
 // All variables for Texture Mapping
@@ -33,7 +32,7 @@ void main(void) {
 
     } else if (textureType2 == 1) {
         vec3 worldNormal = normalize(vWorldNormal);
-        vec3 eyeToSurfaceDir = normalize(vWorldPosition - uWorldCameraPosition);
+        vec3 eyeToSurfaceDir = normalize(vWorldPosition);
         vec3 direction = reflect(eyeToSurfaceDir, worldNormal);
         gl_FragColor = textureCube(uTexture, direction);
 

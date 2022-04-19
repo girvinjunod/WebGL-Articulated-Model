@@ -12,7 +12,7 @@ class GLUtils {
 
     if (!this.gl) {
       alert(
-        "Unable to initialize Webthis.gl. Your browser or machine may not support it."
+        "Unable to initialize Webgl. Your browser or machine may not support it."
       );
       return;
     }
@@ -309,7 +309,8 @@ class GLUtils {
       const buffer = this.initBuffers(vertexPositions[i], facesColor[i]);
       this.buffers.push(buffer);
     }
-    console.log(this.num_objects);
+
+    //dynamic display of slider
     for (let i = 1; i <= 12; i++) {
       let temp = document.getElementById("part-" + i);
       let tempLabel = document.getElementById("label-" + i);
@@ -574,11 +575,11 @@ class GLUtils {
       new Uint8Array([0, 0, 255, 255])
     );
 
-    const image = new Image();
+    let img = new Image();
 
-    image.crossOrigin = "anonymous";
+    img.crossOrigin = "anonymous";
 
-    image.onload = () => {
+    img.onload = () => {
       this.gl.bindTexture(this.gl.TEXTURE_2D, texture);
       this.gl.texImage2D(
         this.gl.TEXTURE_2D,
@@ -586,10 +587,10 @@ class GLUtils {
         this.gl.RGBA,
         this.gl.RGBA,
         this.gl.UNSIGNED_BYTE,
-        image
+        img
       );
 
-      if (isPowerOf2(image.width) && isPowerOf2(image.height)) {
+      if (isPowerOf2(img.width) && isPowerOf2(img.height)) {
         this.gl.generateMipmap(this.gl.TEXTURE_2D);
         this.gl.texParameteri(
           this.gl.TEXTURE_2D,
@@ -624,7 +625,7 @@ class GLUtils {
         );
       }
     };
-    image.src = path;
+    img.src = path;
     return texture;
   }
 
