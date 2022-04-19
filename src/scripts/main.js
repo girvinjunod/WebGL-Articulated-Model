@@ -13,12 +13,14 @@ window.onload = () => {
     const glUtil = new GLUtils(canvas, getVertShader(), getFragShader());
 
     fileSelector.addEventListener("change", (ev) => {
-      var setObject = (data) => {
-        temp = data;
+      if (ev.target.files[0] != null) {
+        var setObject = (data) => {
+          temp = data;
 
-        glUtil.drawModel(temp);
-      };
-      load(ev.target.files[0], setObject);
+          glUtil.drawModel(temp);
+        };
+        load(ev.target.files[0], setObject);
+      }
     });
 
     document.getElementById("animate-btn").onclick = () => {
