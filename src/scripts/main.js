@@ -10,6 +10,7 @@ window.onload = () => {
 
     var temp = TempObj();
 
+    // get number of nodes
     var num_nodes = Object.keys(temp.vertices).length;
 
     const glUtil = new GLUtils(canvas, getVertShader(), getFragShader());
@@ -228,6 +229,11 @@ const createTableOptControl = (num_vertices,glUtil) => {
     optControl.removeChild(optControl.firstChild)
   }
 
+  let text = document.createElement("h2");
+  text.innerHTML = "Model Movement Control";
+
+  optControl.appendChild(text);
+
   let row = Math.floor(num_vertices/3);
   let residu = num_vertices % 3;
 
@@ -252,7 +258,7 @@ const createTableOptControl = (num_vertices,glUtil) => {
       if (j % 2 == 0){
         let optControlCell = document.createElement('td');
         let col = Math.floor(j/2) + 1;
-        let text = 'part ' + (3*i + col);
+        let text = 'Part ' + (3*i + col);
         optControlCell.innerHTML = text;
         optControlRow.appendChild(optControlCell);
         optControlTable.appendChild(optControlRow);
